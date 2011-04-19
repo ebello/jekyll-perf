@@ -31,8 +31,6 @@ def search_type(ext)
 end
 
 Dir.chdir(site)
-#files = %x[ find #{site} -type f ].split("\n").map do |f| 
-# files = %x[ cd #{site} && find . -type f ].split("\n").map do |f| 
 files = %x[ find . -type f ].split("\n").map do |f| 
   f[2,f.length]
 end
@@ -56,7 +54,6 @@ files_to_search.each do |file|
     val = val[2, val.length] if val.start_with?('./')
     text = text.gsub(/\/?#{key}/,"#{cdn}/#{val}")
   end
-  # puts text
   File.open(file, "w") {|file|
     file.puts text
   }
@@ -66,8 +63,5 @@ end
 
 # rename the files based on their CRC32 value (ex. main.js will be renamed to main.ac208223.js)
 farfuturefiles.each do |key, val|
-  # ext = File.extname(key)
-  # puts File.join(File.dirname(key), File.basename(key, ext)) + '.' + val + ext
-  # File.rename(key, File.join(File.dirname(key), File.basename(key, ext)) + '.' + val + ext)
   File.rename(key, val)
 end

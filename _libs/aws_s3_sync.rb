@@ -8,12 +8,6 @@ if local == nil || s3_dest == nil
   exit
 end
 
-# config = "#{Dir.pwd}/s3.config"
-# if !File.exists?(config)
-#   puts "please setup your s3.config file"
-#   exit
-# end
-
 # invalidate = "#{Dir.pwd}/aws_cf_invalidate.rb"
 # if !File.exists?(invalidate)
 #   puts "please download the aws_cf_invalidate.rb script"
@@ -25,10 +19,6 @@ s3_bucket = s3_dest.shift
 s3_path   = s3_dest.join('/')
 
 s3_path += '/' unless s3_dest.length == 0
-
-# %x[ $(which s3cmd) -c #{config} sync #{local} s3://#{s3_bucket}/#{s3_path} --acl-public ]
-# %x[ $(which s3cmd) sync --delete-removed #{local} s3://#{s3_bucket}/#{s3_path} --acl-public --add-header "Expires: Tue, 19 Jan 2038 03:14:07 GMT" --add-header "Content-Encoding: gzip" ]
-# s3cmd sync --dry-run _site/ s3://site-testing/ --acl-public --rexclude '.html'
 
 # add far future expires and gzip headers for all .js and .css files
 %x[ $(which s3cmd) sync #{local} s3://#{s3_bucket}/#{s3_path} --exclude '*' --rinclude '.css$|.js$' --acl-public --add-header "Expires: Tue, 19 Jan 2038 03:14:07 GMT" --add-header "Content-Encoding: gzip" ]
@@ -44,8 +34,6 @@ s3_path += '/' unless s3_dest.length == 0
 
 # delete files that were removed
 %x[ $(which s3cmd) sync #{local} s3://#{s3_bucket}/#{s3_path} --delete-removed ]
-
-# %x[ $(which s3cmd) sync #{local} s3://#{s3_bucket}/#{s3_path} --acl-public --add-header "Expires: Tue, 19 Jan 2038 03:14:07 GMT" --add-header "Content-Encoding: gzip" ]
 
 # invalidate all files on CDN
 # files = %x[ cd _site && find . -type f ].split("\n").map do |f| 

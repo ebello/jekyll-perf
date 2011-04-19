@@ -8,9 +8,7 @@
 # - optipng (brew install optipng)
 
 build_dir = '_site/'
-# cdn = 'http://cdn.westoverfinearts.com'
 cdn = ''
-# bucket = 'www.westoverfinearts.com'
 bucket = 'site-testing'
 sass_dir = "styles"
 COMPILER_JAR = "~/Library/Google/compiler-latest/compiler.jar"
