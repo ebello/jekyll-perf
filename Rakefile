@@ -6,6 +6,7 @@
 # - google closure http://closure-compiler.googlecode.com/files/compiler-latest.zip
 # - thin (gem install thin)
 # - optipng (brew install optipng)
+# - s3cmd (brew install s3cmd, s3cmd --configure)
 
 build_dir = '_site/'
 cdn = ''
