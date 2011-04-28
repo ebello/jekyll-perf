@@ -32,7 +32,8 @@ module Jekyll
       # render and transform content (this becomes the final content of the object)
       payload["pygments_prefix"] = converter.pygments_prefix
       payload["pygments_suffix"] = converter.pygments_suffix
-      # NEXT LINE ADDED BY ERNIE
+      # parse liquid inside all content blocks
+      self.content_blocks.update(self.content_blocks){ |key, val| Liquid::Template.parse(val).render(payload, info) }
       payload["content_blocks"] = self.content_blocks
       
       begin
@@ -49,6 +50,8 @@ module Jekyll
       # recursively render layouts
       layout = layouts[self.data["layout"]]
       while layout
+        # parse liquid inside all content blocks
+        layout.content_blocks.update(layout.content_blocks){ |key, val| Liquid::Template.parse(val).render(payload, info) }
         # NEXT LINE MODIFIED BY ERNIE
         payload = payload.deep_merge({"content" => self.output, "page" => layout.data, "content_blocks" => layout.content_blocks})
 
