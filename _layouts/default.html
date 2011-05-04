@@ -10,5 +10,27 @@
 </head>
 <body>
 	{{content}}
+	
+	<!-- primary navigation -->
+	<nav>
+		<ul>{% for item in site.primary_navigation %}{% capture baseurl %}{{ item.url | remove:'index.html' }}{% endcapture %}
+			{% if item.nav %}<li><a href="{{ item.url }}"{% if item.url == page.url or page.url contains baseurl %} class="selected"{% endif %}>{{ item.nav }}</a></li>{% endif %}{% endfor %}
+		</ul>
+	</nav>
+	
+	<!-- secondary navigation -->
+	{% assign subnav_level = page.subfolder %}
+	{% if page.subnav_level == 'parent' %}
+		{% assign subnav_level = page.parent %}
+	{% endif %}
+	{% if site.sorted_navigation[subnav_level] %}
+	<nav>
+		<ul>
+		{% for item in site.sorted_navigation[subnav_level] %}
+			<li><a href="{{ item.url }}"{% if item.url == page.url %} class="selected"{% endif %}>{{ item.nav }}</a></li>
+		{% endfor %}
+		</ul>
+	</nav>
+	{% endif %}
 </body>
 </html>
