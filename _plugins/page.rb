@@ -1,6 +1,6 @@
 module Jekyll
   class Page
-    attr_accessor :content_blocks
+    attr_accessor :content_blocks, :json
     
     def subfolder
       @dir
@@ -24,7 +24,8 @@ module Jekyll
       orig_to_liquid.deep_merge({
         "subfolder" => (index? && hierarchy_array.size > 2) ? hierarchy_at(1) : subfolder,
         "hierarchy_array" => hierarchy_array,
-        "parent" => hierarchy_at(1)
+        "parent" => hierarchy_at(1),
+        "json" => json
       })
     end
   end

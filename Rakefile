@@ -8,6 +8,7 @@
 # - optipng (brew install optipng)
 # - s3cmd (brew install s3cmd, s3cmd --configure)
 # - htmlcompressor http://code.google.com/p/htmlcompressor/
+# - for building pages with JSON: gem install json
 
 build_dir = '_site/'
 cdn = ''
