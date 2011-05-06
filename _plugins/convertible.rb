@@ -51,9 +51,10 @@ module Jekyll
       layout = layouts[self.data["layout"]]
       while layout
         # parse liquid inside all content blocks
-        layout.content_blocks.update(layout.content_blocks){ |key, val| Liquid::Template.parse(val).render(payload, info) }
-        # NEXT LINE MODIFIED BY ERNIE
-        payload = payload.deep_merge({"content" => self.output, "page" => layout.data, "content_blocks" => layout.content_blocks})
+        payload = payload.deep_merge({"content" => self.output, "page" => layout.data})
+        # create a new hash for the layout content blocks, we don't want to change the original values
+        layout_content_blocks = Hash[*layout.content_blocks.collect{|key, val| [key, Liquid::Template.parse(val).render(payload, info)] }.flatten]
+        payload = payload.deep_merge({"content_blocks" => layout_content_blocks})
 
         begin
           self.output = Liquid::Template.parse(layout.content).render(payload, info)
