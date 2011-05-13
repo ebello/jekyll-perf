@@ -17,6 +17,8 @@ sass_dir = "styles"
 COMPILER_JAR = "~/Library/Google/compiler-latest/compiler.jar"
 COMPRESSOR_JAR = "~/Library/Google/compiler-latest/htmlcompressor-1.2.jar"
 libs_dir = "_libs/"
+# anything in the external directory will not be uploaded when publishing. Before upload, it will be moved from the build_dir to a level up and prepended with _
+external_dir = "external/"
 
 task :default => :server
 
@@ -28,6 +30,9 @@ end
 desc 'Delete generated _site files'
 task :clean do
   system "rm -rf #{build_dir}*"
+  unless external_dir.empty?
+    system "rm -rf _#{external_dir}"
+  end
 end
 
 desc 'Start server with --auto'
@@ -63,7 +68,14 @@ namespace 'build' do
     system "ruby #{libs_dir}html_compress.rb #{build_dir} #{COMPRESSOR_JAR}"
   end
   
-  task :testing => [:jekyll, :compass, :javascript_compile, :version_static_content, :html_compress]
+  desc 'this will move the external folder, if specified, out of the build directory'
+  task :move_external do
+    unless external_dir.empty?
+      system "mv #{build_dir}#{external_dir} _#{external_dir}"
+    end
+  end
+  
+  task :testing => [:jekyll, :compass, :javascript_compile, :version_static_content, :html_compress, :move_external]
   
   # production build should gzip content and add the CDN
   task :production => [:jekyll] do
@@ -72,6 +84,7 @@ namespace 'build' do
     Rake::Task['build:version_static_content'].invoke(cdn)
     Rake::Task['build:html_compress'].invoke
     system "ruby #{libs_dir}gzip_content.rb #{build_dir}"
+    Rake::Task['build:move_external'].invoke
   end
   
 end
@@ -80,6 +93,8 @@ desc 'Build and deploy'
 task :publish => 'build:production' do
   puts "Publishing site to bucket #{bucket}"
   system "ruby #{libs_dir}aws_s3_sync.rb #{build_dir} #{bucket}"
+  
+  # specify additional tasks here to upload items in external folder
 end
 
 def jekyll(opts = '')
