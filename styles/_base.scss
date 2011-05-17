@@ -1,0 +1,17 @@
+@import "compass/utilities/general/clearfix";
+
+@mixin inline-border-list {
+  display: inline;
+  margin-right: 6px;
+  padding-top: 1px;
+  &:before {
+    content: "|";
+    margin-right: 8px;
+  }
+  &:first-child:before {
+    display: none;
+  }
+  &:last-child {
+    margin-right: 0;
+  }
+}
