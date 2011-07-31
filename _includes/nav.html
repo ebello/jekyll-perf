@@ -1,0 +1,12 @@
+{% if item.redirect %}
+  {% assign url = item.redirect %}
+{% else %}
+  {% assign url = item.url %}
+{% endif %}
+{% capture baseurl %}{{ item.url | remove:'index.html' }}{% endcapture %}
+{% if item.nav %}
+  {% assign title = item.nav %}
+{% else %}
+  {% assign title = item.title %}
+{% endif %}
+<li{% if url == page.url or page.url contains baseurl %} class="selected"{% endif %}><a href="{{ url }}">{{ title }}</a></li>

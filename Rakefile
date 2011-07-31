@@ -15,7 +15,7 @@ cdn = ''
 bucket = ''
 sass_dir = "styles"
 COMPILER_JAR = "~/Library/Google/compiler-latest/compiler.jar"
-COMPRESSOR_JAR = "~/Library/Google/compiler-latest/htmlcompressor-1.2.jar"
+COMPRESSOR_JAR = "~/Library/Google/compiler-latest/htmlcompressor-1.4.jar"
 libs_dir = "_libs/"
 # anything in the external directory will not be uploaded when publishing. Before upload, it will be moved from the build_dir to a level up and prepended with _
 external_dir = "external/"

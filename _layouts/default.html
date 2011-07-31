@@ -1,36 +1,72 @@
 <!DOCTYPE html>
-<!--[if IE]><html class="ie no-js{% if page.htmlclass %} {{page.htmlclass}}{% endif %}"><![endif]--> 
-<!--[if !(IE)]><!--> <html class="no-js{% if page.htmlclass %} {{page.htmlclass}}{% endif %}"> <!--<![endif]-->
+<!--[if lt IE 9]><html class="ie no-js{% if page.htmlclass %} {{page.htmlclass}}{% endif %}{% if page.redirect and page.nometaredirect != true %} redirect{% endif %}"><![endif]--> 
+<!--[if (gte IE 9)|!(IE)]><!--> <html class="no-js{% if page.htmlclass %} {{page.htmlclass}}{% endif %}{% if page.redirect and page.nometaredirect != true %} redirect{% endif %}"> <!--<![endif]-->
 <head>
-	<meta charset="utf-8" />
-	<title>{{page.title}}</title>
-	<link rel="stylesheet" href="styles/main.css" type="text/css"/>
-	<!--[if IE 7]><link rel="stylesheet" href="styles/ie7.css" type="text/css"/><![endif]-->
-	<!--[if lt IE 9]><script src="scripts/html5ie.min.js" type="text/javascript"></script><![endif]-->
+  <meta charset="utf-8" />
+  <title>{{page.title}}{% if page.url != '/index.html' %} - [SITE TITLE]{% endif %}</title>
+  {% if page.redirect and page.nometaredirect != true %}
+  <meta http-equiv="refresh" content="0; url={{ page.redirect }}" />
+  {% endif %}
+  {% if page.description %}
+  <meta name="description" content="{{ page.description }}" />
+  {% endif %}
+  <link rel="stylesheet" href="styles/main.css" type="text/css"/>
+  {% content_for styles %}
+  <link rel="shortcut icon" href="/images/favicon.ico" />
+  <!--[if IE 7]><link rel="stylesheet" href="styles/ie7.css" type="text/css"/><![endif]-->
+  <!--[if lt IE 9]><script src="scripts/html5ie.min.js" type="text/javascript"></script><![endif]-->
+  <script type="text/javascript">
+    (function(a){a.className=a.className.replace(/\bno-js\b/,"js")})(document.documentElement);
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[ANALYTICS CODE]']);
+    _gaq.push(['_trackPageview']);
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
 </head>
 <body>
-	{{content}}
-	
-	<!-- primary navigation -->
-	<nav>
-		<ul>{% for item in site.primary_navigation %}{% capture baseurl %}{{ item.url | remove:'index.html' }}{% endcapture %}
-			{% if item.nav %}<li><a href="{{ item.url }}"{% if item.url == page.url or page.url contains baseurl %} class="selected"{% endif %}>{{ item.nav }}</a></li>{% endif %}{% endfor %}
-		</ul>
-	</nav>
-	
-	<!-- secondary navigation -->
-	{% assign subnav_level = page.subfolder %}
-	{% if page.subnav_level == 'parent' %}
-		{% assign subnav_level = page.parent %}
-	{% endif %}
-	{% if site.sorted_navigation[subnav_level] %}
-	<nav>
-		<ul>
-		{% for item in site.sorted_navigation[subnav_level] %}
-			<li><a href="{{ item.url }}"{% if item.url == page.url %} class="selected"{% endif %}>{{ item.nav }}</a></li>
-		{% endfor %}
-		</ul>
-	</nav>
-	{% endif %}
+  <section>
+    {{content}}
+
+    <!-- primary navigation -->
+    <nav>
+      <ul>
+        {% for item in site.primary_navigation %}
+          {% include nav.html %}
+        {% endfor %}
+      </ul>
+    </nav>
+
+    <!-- secondary navigation -->
+    {% assign subnav_level = page.subfolder %}
+    {% if page.subnav_level == 'parent' %}
+      {% assign subnav_level = page.parent %}
+    {% endif %}
+    {% if site.sorted_navigation[subnav_level] %}
+    <nav>
+      <ul>
+        {% for item in site.sorted_navigation[subnav_level] %}
+          {% include nav.html %}
+        {% endfor %}
+      </ul>
+    </nav>
+    {% endif %}
+  </section>
+      
+  <script type="text/javascript" src="/scripts/modernizr.min.js"></script>
+
+  {% content_for scripts %}
+
+  <script type="text/javascript">
+    yepnope({
+      load:"/scripts/jquery.min.js",
+      complete:function() {
+        yepnope(['/scripts/main.js'{% if page.pagescript %}, '{{page.pagescript}}'{% endif %}])
+      }
+    });
+  </script>
 </body>
 </html>
