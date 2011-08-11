@@ -26,6 +26,7 @@ def search_type(ext)
   [
     '.css',
     '.js',
+    '.json',
     '.html',
   ].include?(ext)
 end
