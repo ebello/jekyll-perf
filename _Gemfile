@@ -1,0 +1,6 @@
+source :rubygems
+gem "jekyll"
+gem "compass"
+gem "thin"
+gem "thor"
+gem "json"
