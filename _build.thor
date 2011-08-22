@@ -185,9 +185,10 @@ class Build < Thor
   end
   
   desc "server", "builds, prepares, and hosts site locally using thin"
+  method_option :port, :aliases => "-p", :default => 3000
   def server
     invoke :testing
-    system "thin start -R #{LIBS_DIR}thin.ru"
+    system "thin start -R #{LIBS_DIR}thin.ru -p #{options[:port]}"
   end
   
   # thor 0.14.6 has a bug that forces args to be defined for invoked tasks if the main task accepts an argument that isn't optional.
