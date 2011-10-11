@@ -22,7 +22,7 @@ s3_path += '/' unless s3_dest.length == 0
 
 # add far future expires and gzip headers for all .js and .css files
 # cache-control private headers are added to get around proxy issues. AWS won't be serving non-gzipped versions so the Vary header doesn't apply. More info: http://code.google.com/speed/page-speed/docs/caching.html#LeverageProxyCaching
-%x[ $(which s3cmd) sync #{local} s3://#{s3_bucket}/#{s3_path} --exclude '*' --rinclude '.css$|.js$' --acl-public --add-header "Expires: Tue, 19 Jan 2038 03:14:07 GMT" --add-header "Content-Encoding: gzip" --add-header "Cache-Control: private" ]
+%x[ $(which s3cmd) sync #{local} s3://#{s3_bucket}/#{s3_path} --exclude '*' --rinclude '.css$|.js$|.svg$' --acl-public --add-header "Expires: Tue, 19 Jan 2038 03:14:07 GMT" --add-header "Content-Encoding: gzip" --add-header "Cache-Control: private" ]
 
 # add far future expires header for all images
 %x[ $(which s3cmd) sync #{local} s3://#{s3_bucket}/#{s3_path} --exclude '*' --rinclude '.ico$|.jpg$|.png$|.gif$' --acl-public --add-header "Expires: Tue, 19 Jan 2038 03:14:07 GMT" ]

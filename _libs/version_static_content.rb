@@ -15,6 +15,7 @@ def far_future_expires_type(ext)
     '.jpg',
     '.png',
     '.gif',
+    '.svg',
   ].include?(ext)
 end
 
