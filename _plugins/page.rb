@@ -2,6 +2,15 @@ module Jekyll
   class Page
     attr_accessor :content_blocks, :json
     
+    def absolute_url
+      if site.domain
+        site.domain + url
+      else
+        puts '*** WARNING: domain in _config.yml is blank. This is used to generate an absolute url for a page.'
+        url
+      end
+    end
+    
     def subfolder
       @dir
     end
@@ -25,6 +34,7 @@ module Jekyll
         "subfolder" => (index? && hierarchy_array.size > 2) ? hierarchy_at(1) : subfolder,
         "hierarchy_array" => hierarchy_array,
         "parent" => hierarchy_at(1),
+        "absolute_url" => absolute_url,
         "json" => json
       })
     end
