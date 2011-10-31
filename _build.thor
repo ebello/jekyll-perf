@@ -132,7 +132,7 @@ class Build < Thor
   def jekyll
     invoke :clean
     puts "building static site with jekyll"
-    system 'jekyll --no-future'
+    system "jekyll #{BUILD_DIR} --no-future"
   end
   
   desc "compass", "compile css with compass"
@@ -152,6 +152,19 @@ class Build < Thor
   def version_static_content(cdn = "")
     puts "versioning static content"
     system "ruby #{LIBS_DIR}version_static_content.rb #{BUILD_DIR} #{cdn}"
+  end
+  
+  desc "add_base_path", "adds a base path to all files referenced by links or elsewhere"
+  def add_base_path
+    path = BUILD_DIR
+    # return everything after first occurance of /
+    path = path.slice(path.index('/')..-1)
+    # remove trailing /
+    path.chop! if path.end_with?('/')
+    unless path.empty?
+      puts "adding a base path to all files"
+      system "ruby #{LIBS_DIR}add_base_path.rb #{BUILD_DIR} #{path}"
+    end
   end
   
   desc "html_compress", "minifies all html"
@@ -180,6 +193,7 @@ class Build < Thor
     invoke :compass
     invoke :javascript_compile
     invoke :version_static_content
+    invoke :add_base_path
     invoke :html_compress
     invoke :move_external
   end
@@ -199,6 +213,7 @@ class Build < Thor
     invoke :compass, ["production", "compressed"]
     invoke :javascript_compile, []
     invoke :version_static_content, [cdn]
+    invoke :add_base_path, []
     invoke :html_compress, []
     invoke :move_external, []
   end
