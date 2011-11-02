@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<!--[if lt IE 9]><html class="ie no-js{% if page.htmlclass %} {{page.htmlclass}}{% endif %}{% if page.redirect and page.nometaredirect != true %} redirect{% endif %}"><![endif]--> 
-<!--[if (gte IE 9)|!(IE)]><!--> <html class="no-js{% if page.htmlclass %} {{page.htmlclass}}{% endif %}{% if page.redirect and page.nometaredirect != true %} redirect{% endif %}"> <!--<![endif]-->
+<!--[if lt IE 9]><html lang="en" manifest="/manifest.appcache" class="ie no-js{% if page.htmlclass %} {{page.htmlclass}}{% endif %}{% if page.redirect and page.nometaredirect != true %} redirect{% endif %}"><![endif]--> 
+<!--[if (gte IE 9)|!(IE)]><!--> <html lang="en" manifest="/manifest.appcache" class="no-js{% if page.htmlclass %} {{page.htmlclass}}{% endif %}{% if page.redirect and page.nometaredirect != true %} redirect{% endif %}"> <!--<![endif]-->
 <head>
   <meta charset="utf-8" />
   <title>{{page.title}}{% if page.url != '/index.html' %} - [SITE TITLE]{% endif %}</title>
@@ -66,6 +66,13 @@
         load: ('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js'
       }
     ]);
+    if (window.applicationCache) {
+      applicationCache.addEventListener('updateready', function() {
+        // force the new version of the page without making the user refresh
+        window.applicationCache.swapCache();
+        window.location.reload();
+      });
+    }
   </script>
   <!-- Prompt IE 6 users to install Chrome Frame. Remove this if you want to support IE 6.
     chromium.org/developers/how-tos/chrome-frame-getting-started -->

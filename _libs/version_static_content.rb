@@ -29,6 +29,7 @@ def search_type(ext)
     '.js',
     '.json',
     '.html',
+    '.appcache',
   ].include?(ext)
 end
 

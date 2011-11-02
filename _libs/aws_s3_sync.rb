@@ -20,6 +20,9 @@ s3_path   = s3_dest.join('/')
 
 s3_path += '/' unless s3_dest.length == 0
 
+# make sure that .appcache isn't cached and that it's served with proper mime type
+%x[ $(which s3cmd) sync #{local} s3://#{s3_bucket}/#{s3_path} --exclude '*' --rinclude '.appcache$' --acl-public --add-header "Content-Encoding: gzip" --add-header "Cache-Control: max-age=0" --mime-type "text/cache-manifest" ]
+
 # add far future expires and gzip headers for all .js and .css files
 # cache-control private headers are added to get around proxy issues. AWS won't be serving non-gzipped versions so the Vary header doesn't apply. More info: http://code.google.com/speed/page-speed/docs/caching.html#LeverageProxyCaching
 %x[ $(which s3cmd) sync #{local} s3://#{s3_bucket}/#{s3_path} --exclude '*' --rinclude '.css$|.js$|.svg$' --acl-public --add-header "Expires: Tue, 19 Jan 2038 03:14:07 GMT" --add-header "Content-Encoding: gzip" --add-header "Cache-Control: private" ]

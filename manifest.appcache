@@ -1,0 +1,19 @@
+---
+---
+CACHE MANIFEST
+
+# rev {{ site.buildtime }}
+
+CACHE:
+/styles/main.css
+{% for page in site.pages %}{% if page.url != '/manifest.appcache' %}{{ page.url }}{% endif %}
+{% endfor %}
+{% for item in site.images %}{{ item.url }}
+{% endfor %}
+{% for item in site.scripts %}{{ item.url }}
+{% endfor %}
+
+NETWORK:
+*
+http://*
+https://*

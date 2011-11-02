@@ -16,6 +16,7 @@ def compressible_type(ext)
     '.css',
     '.js',
     '.svg',
+    '.appcache',
     #'.txt',
     #'.ttf',
     #'.atom',

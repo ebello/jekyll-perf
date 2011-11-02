@@ -18,6 +18,10 @@ module Jekyll
         sorted_nav[p.to_liquid["subfolder"]] << p
       end
       site.config["sorted_navigation"] = sorted_nav
+      
+      site.config['images'] = site.static_files.select{ |f| f.destination('').start_with?('/images') }
+      site.config['scripts'] = site.static_files.select{ |f| f.destination('').start_with?('/scripts') }
+      site.config['buildtime'] = Time.now.getutc
     end
 
   end
