@@ -4,10 +4,10 @@ module Jekyll
     
     def absolute_url
       if site.domain
-        site.domain + url
+        site.domain + subfolder + url
       else
         puts '*** WARNING: domain in _config.yml is blank. This is used to generate an absolute url for a page.'
-        url
+        subfolder + url
       end
     end
     
