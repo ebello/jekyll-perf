@@ -22,6 +22,13 @@ module Jekyll
       site.config['images'] = site.static_files.select{ |f| f.destination('').start_with?('/images') }
       site.config['scripts'] = site.static_files.select{ |f| f.destination('').start_with?('/scripts') }
       site.config['buildtime'] = Time.now.getutc
+      
+      # create hash of pages by ID
+      pageidhash = Hash.new { |hash, key| hash[key] = [] }
+      site.pages.each do |p|
+        pageidhash[p.to_liquid["id"]] << p
+      end
+      site.config["pages_by_id"] = pageidhash
     end
 
   end
