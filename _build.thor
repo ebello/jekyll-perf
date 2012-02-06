@@ -96,7 +96,7 @@ class Build < Thor
   # anything in the external directory will not be uploaded when publishing. Before upload, it will be moved from the build_dir to a level up and prepended with _
   EXTERNAL_DIR = "external/"
   class_option :compiler, :default => "~/Library/Google/compiler-latest/compiler.jar"
-  class_option :compressor, :default => "~/Library/Google/compiler-latest/htmlcompressor-1.4.jar"
+  class_option :compressor, :default => "~/Library/Google/compiler-latest/htmlcompressor-1.5.2.jar"
   
   default_task :server
   
