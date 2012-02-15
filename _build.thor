@@ -15,6 +15,9 @@
 #
 # ==== Usage
 #
+#   Development mode, continually regenerates html and CSS:
+#     thor dev
+#
 #   Build and serve on local machine:
 #     thor build
 #
@@ -89,10 +92,27 @@ class Deploy < Thor
   end
 end
 
+class Dev < Thor
+  default_task :dev
+  
+  desc "dev", "starts local server and continuously regenerates html and css"
+  method_option :port, :aliases => "-p", :default => 3000
+  def dev
+    procfile = "_Procfile"
+    File.open(procfile, "w") {|file|
+      file.puts "compass: compass watch --sass-dir #{Build.sass_dir} --css-dir #{Build.css_dir} -e development -s expanded"
+      file.puts "jekyll: jekyll #{Build.build_dir} --auto"
+      file.puts "server: thin start -R #{Build.libs_dir}thin.ru -p #{options[:port]}"
+    }
+    system "foreman start -f #{procfile}"
+  end
+end
+
 class Build < Thor  
   BUILD_DIR = "_site/"
   LIBS_DIR = "_libs/"
   SASS_DIR = "styles"
+  CSS_DIR = "css"
   # anything in the external directory will not be uploaded when publishing. Before upload, it will be moved from the build_dir to a level up and prepended with _
   EXTERNAL_DIR = "external/"
   class_option :compiler, :default => "~/Library/Google/compiler-latest/compiler.jar"
@@ -108,6 +128,14 @@ class Build < Thor
     LIBS_DIR
   end
   
+  def self.sass_dir
+    SASS_DIR
+  end
+  
+  def self.css_dir
+    CSS_DIR
+  end
+  
   def self.processed_external_dir
     "_#{EXTERNAL_DIR}"
   end
@@ -117,7 +145,7 @@ class Build < Thor
     system "ruby #{LIBS_DIR}optimize_images.rb #{BUILD_DIR}"
   end
   
-  desc "clean", "cleans build directory and external directory, if provided"
+  desc "clean", "cleans build directory and external directory, if provided", :hide => true
   # method_option :external_dir
   def clean
     puts "cleaning build dir #{BUILD_DIR}"
@@ -128,33 +156,33 @@ class Build < Thor
     end
   end
   
-  desc "jekyll", "builds static site"
+  desc "jekyll", "builds static site", :hide => true
   def jekyll
     invoke :clean
     puts "building static site with jekyll"
     system "jekyll #{BUILD_DIR} --no-future"
   end
   
-  desc "compass", "compile css with compass"
+  desc "compass", "compile css with compass", :hide => true
   # method_option :sass_dir, :default => "styles", :required => true
   def compass(environment = "development", output_style = "expanded")
     puts "compiling css with compass"
     system "compass compile --sass-dir #{SASS_DIR} --css-dir #{BUILD_DIR}#{SASS_DIR} -e #{environment} -s #{output_style}"
   end
   
-  desc "javascript_compile", "uses Google Compiler to optimize javascript"
+  desc "javascript_compile", "uses Google Compiler to optimize javascript", :hide => true
   def javascript_compile
     puts "optimizing JavaScript with Google Compiler"
     system "ruby #{LIBS_DIR}javascript_compile.rb #{BUILD_DIR} #{options[:compiler]}"
   end
   
-  desc "version_static_content", "version and replace static content"
+  desc "version_static_content", "version and replace static content", :hide => true
   def version_static_content(cdn = "")
     puts "versioning static content"
     system "ruby #{LIBS_DIR}version_static_content.rb #{BUILD_DIR} #{cdn}"
   end
   
-  desc "add_base_path", "adds a base path to all files referenced by links or elsewhere"
+  desc "add_base_path", "adds a base path to all files referenced by links or elsewhere", :hide => true
   def add_base_path
     path = BUILD_DIR
     # return everything after first occurance of /
@@ -167,13 +195,13 @@ class Build < Thor
     end
   end
   
-  desc "html_compress", "minifies all html"
+  desc "html_compress", "minifies all html", :hide => true
   def html_compress
     puts "minifying all html"
     system "ruby #{LIBS_DIR}html_compress.rb #{BUILD_DIR} #{options[:compressor]}"
   end
   
-  desc "move_external", "this will move the external folder, if specified, out of the build directory"
+  desc "move_external", "this will move the external folder, if specified, out of the build directory", :hide => true
   def move_external
     unless EXTERNAL_DIR.empty?
       puts "moving all external files out of main site"
@@ -181,7 +209,7 @@ class Build < Thor
     end
   end
   
-  desc "gzip", "pre-compresses content"
+  desc "gzip", "pre-compresses content", :hide => true
   def gzip
     puts "gzipping content"
     system "ruby #{LIBS_DIR}gzip_content.rb #{BUILD_DIR}"
@@ -189,8 +217,8 @@ class Build < Thor
   
   desc "testing", "builds and prepares site for a testing environment"
   def testing
-    invoke :jekyll
     invoke :compass
+    invoke :jekyll
     invoke :javascript_compile
     invoke :version_static_content
     invoke :add_base_path
@@ -209,8 +237,8 @@ class Build < Thor
   # for example, if you remove the [] for `invoke :jekyll, []`, you'll receive an error that the jekyll task was called incorrectly.
   desc "production", "builds and prepares site for a production environment"
   def production(cdn)
-    invoke :jekyll, []
     invoke :compass, ["production", "compressed"]
+    invoke :jekyll, []
     invoke :javascript_compile, []
     invoke :version_static_content, [cdn]
     invoke :add_base_path, []
