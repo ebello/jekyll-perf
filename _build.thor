@@ -158,7 +158,6 @@ class Build < Thor
   
   desc "jekyll", "builds static site", :hide => true
   def jekyll
-    invoke :clean
     puts "building static site with jekyll"
     system "jekyll #{BUILD_DIR} --no-future"
   end
@@ -167,7 +166,7 @@ class Build < Thor
   # method_option :sass_dir, :default => "styles", :required => true
   def compass(environment = "development", output_style = "expanded")
     puts "compiling css with compass"
-    system "compass compile --sass-dir #{SASS_DIR} --css-dir #{BUILD_DIR}#{SASS_DIR} -e #{environment} -s #{output_style}"
+    system "compass compile --sass-dir #{SASS_DIR} --css-dir #{CSS_DIR} -e #{environment} -s #{output_style} --force"
   end
   
   desc "javascript_compile", "uses Google Compiler to optimize javascript", :hide => true
@@ -217,6 +216,7 @@ class Build < Thor
   
   desc "testing", "builds and prepares site for a testing environment"
   def testing
+    invoke :clean
     invoke :compass
     invoke :jekyll
     invoke :javascript_compile
@@ -237,6 +237,7 @@ class Build < Thor
   # for example, if you remove the [] for `invoke :jekyll, []`, you'll receive an error that the jekyll task was called incorrectly.
   desc "production", "builds and prepares site for a production environment"
   def production(cdn)
+    invoke :clean
     invoke :compass, ["production", "compressed"]
     invoke :jekyll, []
     invoke :javascript_compile, []
