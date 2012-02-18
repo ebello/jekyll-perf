@@ -27,9 +27,6 @@
 #   Specify SSH login:
 #     thor deploy -l=[SSH USER]
 #
-#   Specify different location for Google Closure:
-#     thor build --compiler=[COMPILER LOCATION]
-#
 #   Specify different location for htmlcompressor:
 #     thor build --compressor=[COMPRESSOR LOCATION]
 #
@@ -115,7 +112,6 @@ class Build < Thor
   CSS_DIR = "css"
   # anything in the external directory will not be uploaded when publishing. Before upload, it will be moved from the build_dir to a level up and prepended with _
   EXTERNAL_DIR = "external/"
-  class_option :compiler, :default => "~/Library/Google/compiler-latest/compiler.jar"
   class_option :compressor, :default => "~/Library/Google/compiler-latest/htmlcompressor-1.5.2.jar"
   
   default_task :server
@@ -169,10 +165,10 @@ class Build < Thor
     system "compass compile --sass-dir #{SASS_DIR} --css-dir #{CSS_DIR} -e #{environment} -s #{output_style} --force"
   end
   
-  desc "javascript_compile", "uses Google Compiler to optimize javascript", :hide => true
+  desc "javascript_compile", "uses Uglifier to optimize javascript", :hide => true
   def javascript_compile
-    puts "optimizing JavaScript with Google Compiler"
-    system "ruby #{LIBS_DIR}javascript_compile.rb #{BUILD_DIR} #{options[:compiler]}"
+    puts "optimizing JavaScript with Uglifier"
+    system "ruby #{LIBS_DIR}javascript_compile.rb #{BUILD_DIR}"
   end
   
   desc "version_static_content", "version and replace static content", :hide => true
