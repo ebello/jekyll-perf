@@ -233,7 +233,7 @@ class Build < Thor
   # for example, if you remove the [] for `invoke :jekyll, []`, you'll receive an error that the jekyll task was called incorrectly.
   desc "production", "builds and prepares site for a production environment"
   def production(cdn)
-    invoke :clean
+    invoke :clean, []
     invoke :compass, ["production", "compressed"]
     invoke :jekyll, []
     invoke :javascript_compile, []
