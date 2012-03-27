@@ -1,4 +1,17 @@
-@import "compass/utilities/general/clearfix";
+@import "compass";
+
+$text-color: #333;
+
+@mixin text-spec($size: '', $line-height: '', $color: '', $weight: '') {
+  @if $size != '' { font-size: $size; }
+  @if $line-height != '' { line-height: $line-height; }
+  @if $color != '' { color: $color; }
+  @if $weight != '' { font-weight: $weight; }
+}
+
+@mixin regular-text {
+  @include text-spec(12px, 17px, $text-color);
+}
 
 @mixin inline-border-list {
   display: inline;

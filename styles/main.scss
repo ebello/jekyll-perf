@@ -1,2 +1,14 @@
 @import "base";
 @import "normalize";
+
+html {
+  &.redirect {
+    display: none;
+  }
+}
+
+body {
+  font-family: Arial;
+  @include regular-text;
+  margin: 0 auto;
+}
