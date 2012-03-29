@@ -30,8 +30,10 @@ s3_path += '/' unless s3_dest.length == 0
 # add far future expires header for all images
 %x[ $(which s3cmd) sync #{local} s3://#{s3_bucket}/#{s3_path} --exclude '*' --rinclude '.ico$|.jpg$|.png$|.gif$' --acl-public --add-header "Expires: Tue, 19 Jan 2038 03:14:07 GMT" ]
 
-# add gzip headers for all html and json files
-%x[ $(which s3cmd) sync #{local} s3://#{s3_bucket}/#{s3_path} --exclude '*' --rinclude '.html$|.json$' --acl-public --add-header "Content-Encoding: gzip" ]
+# add gzip headers and charset for all html files (charset requires s3cmd 1.1.0 beta 3)
+%x[ $(which s3cmd) sync #{local} s3://#{s3_bucket}/#{s3_path} --exclude '*' --rinclude '.html$' --acl-public --add-header "Content-Encoding: gzip" --mime-type "text/html; charset=utf-8" ]
+# add gzip headers for all json files
+%x[ $(which s3cmd) sync #{local} s3://#{s3_bucket}/#{s3_path} --exclude '*' --rinclude '.json$' --acl-public --add-header "Content-Encoding: gzip" ]
 
 # upload anything else
 %x[ $(which s3cmd) sync #{local} s3://#{s3_bucket}/#{s3_path} --rexclude '.html$|.css$|.js$|.ico$|.jpg$|.png$|.gif$' --acl-public ]
