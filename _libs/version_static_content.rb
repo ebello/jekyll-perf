@@ -4,7 +4,7 @@ site = ARGV[0]
 cdn = ARGV[1]
 
 def should_rename(file)
-  far_future_expires_type(File.extname(file))
+  far_future_expires_type(File.extname(file)) && !file.include?("apple-touch-icon")
 end
   
 def far_future_expires_type(ext)
