@@ -1,2 +1,2 @@
-exclude: [ styles, readme.md ]
+exclude: [ styles, README.md, LICENSE ]
 domain: 
