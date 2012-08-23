@@ -1,9 +1,9 @@
+{% capture baseurl %}{{ item.url | remove:'index.html' }}{% endcapture %}
 {% if item.redirect %}
   {% assign url = item.redirect %}
 {% else %}
-  {% assign url = item.url %}
+  {% assign url = baseurl %}
 {% endif %}
-{% capture baseurl %}{{ item.url | remove:'index.html' }}{% endcapture %}
 {% if item.nav %}
   {% assign title = item.nav %}
 {% else %}
