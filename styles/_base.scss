@@ -2,11 +2,11 @@
 
 $text-color: #333;
 
-@mixin text-spec($size: '', $line-height: '', $color: '', $weight: '') {
-  @if $size != '' { font-size: $size; }
-  @if $line-height != '' { line-height: $line-height; }
-  @if $color != '' { color: $color; }
-  @if $weight != '' { font-weight: $weight; }
+@mixin text-spec($size: null, $line-height: null, $color: null, $weight: null) {
+  font-size: $size;
+  line-height: $line-height;
+  color: $color;
+  font-weight: $weight;
 }
 
 @mixin regular-text {
@@ -26,5 +26,59 @@ $text-color: #333;
   }
   &:last-child {
     margin-right: 0;
+  }
+}
+
+// sets up a link with a background image and moves the text out of view
+@mixin background-image-link($background, $width, $height) {
+  display: block;
+  text-indent: -9999%;
+  @if $background != null { background-image: url($background); }
+  width: $width;
+  height: $height;
+}
+
+@mixin absolute($top: 0, $left: 0) {
+  position: absolute;
+  top: $top;
+  left: $left;
+}
+
+@mixin horizontal-linked-list($item-margin-left: null, $item-margin-right: null) {
+  @include pie-clearfix;
+  li {
+    display: inline;
+  }
+  a {
+    display: block;
+    float: left;
+    margin-left: $item-margin-left;
+    margin-right: $item-margin-right;
+  }
+}
+
+// creates a triangle to place before an element. 
+// specify direction that the triangle points (up, right, down, left) or give a custom rotation.
+// specify x and y coordinates of where you want to place the triangle relative to the element.
+@mixin triangle($color, $size, $direction, $x, $y) {
+  position: relative;
+  &:before {
+    content: "";
+    display: block;
+    border-color: $color transparent transparent transparent;
+    border-style: solid;
+    border-width: $size;
+    width: 0;
+    height: 0;
+    @include absolute($y, $x);
+    @if $direction == left {
+      @include transform(rotate(90deg));
+    } @else if $direction == up {
+      @include transform(rotate(180deg));
+    } @else if $direction == right {
+      @include transform(rotate(270deg));
+    } @else if $direction != down {
+      @include transform(rotate($direction));
+    }
   }
 }
