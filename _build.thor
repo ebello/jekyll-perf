@@ -111,8 +111,9 @@ class Build < Thor
   desc "clean", "cleans build directory and external directory, if provided", :hide => true
   # method_option :external_dir
   def clean
-    puts "cleaning build dir #{BUILD_DIR}"
+    puts "cleaning build dir #{BUILD_DIR} and css dir #{CSS_DIR}"
     system "rm -rf #{BUILD_DIR}*"
+    system "rm -rf #{CSS_DIR}*"
     unless EXTERNAL_DIR.empty?
       puts "cleaning external dir _#{EXTERNAL_DIR}"
       system "rm -rf _#{EXTERNAL_DIR}"
