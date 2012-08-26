@@ -80,5 +80,9 @@ $text-color: #333;
     } @else if $direction != down {
       @include transform(rotate($direction));
     }
+
+    html.no-csstransforms & {
+      display: none;
+    }
   }
 }
