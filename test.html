@@ -9,4 +9,10 @@ htmlclass: test
   <p>This is a sample page showing how to <a href="{% url sample %}">use page id's for linking</a>. Make sure the page has an id specified and use that as the argument to the url tag. Now the link will work even if the page is moved.</p>
   
   <p>This is an encoded absolute url of this page: {{ page.absolute_url | urlencode }}</p>
+
+  <!-- sample deferred image -->
+  <img src="/images/s.gif" data-low="/images/home.jpg" data-high="/images/2x/home.jpg" width="931" height="617" alt="sample"/>
+  <noscript>
+    <img src="/images/home.jpg" alt="sample" width="931" height="617" />
+  </noscript>
 </article>
