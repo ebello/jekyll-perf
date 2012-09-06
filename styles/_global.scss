@@ -4,6 +4,10 @@
   @include box-sizing(border-box);
 }
 
+html.no-js img[data-low] {
+  display: none;
+}
+
 ul {
   margin: 0;
   padding: 0;
