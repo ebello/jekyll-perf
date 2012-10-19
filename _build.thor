@@ -58,7 +58,7 @@ class Dev < Thor
   def dev
     procfile = "_Procfile"
     File.open(procfile, "w") {|file|
-      file.puts "compass: compass watch --sass-dir #{Build.sass_dir} --css-dir #{Build.css_dir} -e development -s expanded"
+      file.puts "compass: compass watch --sass-dir #{Build.sass_dir} --css-dir #{Build.css_dir} -e development -s expanded --debug-info"
       file.puts "jekyll: jekyll #{Build.build_dir} --auto"
       file.puts "server: thin start -R #{Build.libs_dir}thin.ru -p #{options[:port]}"
     }
