@@ -13,7 +13,7 @@ module Jekyll
     priority :high
 
     def generate(site)
-      site.pages.select{|p| p.ext == ".json"}.each do |p|
+      site.allpages.select{|p| p.ext == ".json"}.each do |p|
 
         unless p.to_liquid["makehtml"] == false
           # load json into property so we can access with liquid later

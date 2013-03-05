@@ -9,8 +9,8 @@ module Jekyll
 
     def render(context)
       url = ""
-      context.registers[:site].pages.each do |p|
-        if @pageid == p.to_liquid["id"]
+      context.registers[:site].allpages.each do |p|
+        if @pageid == p.to_liquid["id"] || @pageid == p.to_liquid["uid"]
           url = p.subfolder + p.url
           break
         end

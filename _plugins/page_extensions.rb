@@ -1,6 +1,10 @@
 module Jekyll
-  class Page
+  module JekyllS3PageExtensions
     attr_accessor :content_blocks, :json
+
+    def subfolder
+      @dir.to_s
+    end
     
     def absolute_url
       if site.domain
@@ -10,11 +14,13 @@ module Jekyll
         subfolder + url
       end
     end
-    
-    def subfolder
-      @dir
-    end
-    
+  end
+end
+
+module Jekyll
+  class Page
+    include JekyllS3PageExtensions
+
     def hierarchy_array
       subfolder.split('/')
     end
@@ -26,7 +32,7 @@ module Jekyll
       end
       arr.join('/')
     end
-    
+
     alias orig_to_liquid to_liquid
     def to_liquid
       # we want index pages to be included with the navigation one level above, but only if it's not on the first level
@@ -34,6 +40,17 @@ module Jekyll
         "subfolder" => (index? && hierarchy_array.size > 2) ? hierarchy_at(1) : subfolder,
         "hierarchy_array" => hierarchy_array,
         "parent" => hierarchy_at(1),
+        "absolute_url" => absolute_url,
+        "json" => json
+      })
+    end
+  end
+
+  class Post
+    include JekyllS3PageExtensions
+    alias orig_to_liquid to_liquid
+    def to_liquid
+      orig_to_liquid.deep_merge({
         "absolute_url" => absolute_url,
         "json" => json
       })

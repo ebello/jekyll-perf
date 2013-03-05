@@ -20,8 +20,8 @@ module Jekyll
 
     def render(context)
       result = nil
-      context.registers[:site].pages.each do |p|
-        if @pageid == p.to_liquid["id"]
+      context.registers[:site].allpages.each do |p|
+        if @pageid == p.to_liquid["id"] || @pageid == p.to_liquid["uid"]
           
           result = p.json
           @jsonkeys.each do |key|

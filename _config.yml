@@ -1,2 +1,3 @@
 exclude: [ styles, README.md, LICENSE ]
 domain: 
+permalink: pretty

@@ -3,5 +3,9 @@ module Jekyll
     def domain
       config["domain"]
     end    
+
+    def allpages
+      pages + posts
+    end
   end
 end
