@@ -60,7 +60,7 @@ class Dev < Thor
     File.open(procfile, "w") {|file|
       file.puts "compass: compass watch --sass-dir #{Build.sass_dir} --css-dir #{Build.css_dir} -e development -s expanded --debug-info"
       file.puts "jekyll: jekyll #{Build.build_dir} --auto"
-      file.puts "server: thin start -R #{Build.libs_dir}thin.ru -p #{options[:port]}"
+      file.puts "server: thin start -R #{Build.build_dir_folder_level}#{Build.libs_dir}thin.ru -c #{Build.build_dir} -p #{options[:port]}"
     }
     system "foreman start -f #{procfile}"
   end
@@ -96,6 +96,14 @@ class Build < Thor
   
   def self.processed_external_dir
     "_#{EXTERNAL_DIR}"
+  end
+
+  def self.build_dir_folder_level_count
+    return BUILD_DIR.count "/"
+  end
+
+  def self.build_dir_folder_level(folder_level_count = Build.build_dir_folder_level_count)
+    return "../" * folder_level_count
   end
   
   desc "optimize_images", "optimize all PNGs"
@@ -194,7 +202,7 @@ class Build < Thor
   method_option :port, :aliases => "-p", :default => 3000
   def server
     invoke :testing
-    system "thin start -R #{LIBS_DIR}thin.ru -p #{options[:port]}"
+    system "thin start -c #{BUILD_DIR.split('/')[0]}/ -R ../#{LIBS_DIR}thin.ru -p #{options[:port]}"
   end
   
   # thor 0.14.6 has a bug that forces args to be defined for invoked tasks if the main task accepts an argument that isn't optional.
