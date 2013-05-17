@@ -59,7 +59,7 @@ class Dev < Thor
     procfile = "_Procfile"
     File.open(procfile, "w") {|file|
       file.puts "compass: compass watch --sass-dir #{Build.sass_dir} --css-dir #{Build.css_dir} -e development -s expanded --debug-info"
-      file.puts "jekyll: jekyll #{Build.build_dir} --auto"
+      file.puts "jekyll: jekyll build --destination #{Build.build_dir} --watch"
       file.puts "server: thin start -R #{Build.build_dir_folder_level}#{Build.libs_dir}thin.ru -c #{Build.build_dir} -p #{options[:port]}"
     }
     system "foreman start -f #{procfile}"
@@ -131,7 +131,7 @@ class Build < Thor
   desc "jekyll", "builds static site", :hide => true
   def jekyll
     puts "building static site with jekyll"
-    system "jekyll #{BUILD_DIR} --no-future"
+    system "jekyll build --destination #{BUILD_DIR}"
   end
   
   desc "compass", "compile css with compass", :hide => true
