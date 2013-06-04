@@ -11,7 +11,7 @@ module Jekyll
       url = ""
       context.registers[:site].allpages.each do |p|
         if @pageid == p.to_liquid["id"] || @pageid == p.to_liquid["uid"]
-          url = p.subfolder + p.url
+          url = p.url
           break
         end
       end
