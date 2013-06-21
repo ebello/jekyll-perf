@@ -1,13 +1,13 @@
-Jekyll-S3
+jekyll-perf
 =========
 
-Jekyll-S3 is a static site generating framework that is focused on web performance and makes it easy to deploy a site to be hosted on Amazon S3.
+jekyll-perf is a static site generating framework that is focused on web performance and makes it easy to deploy a site to be hosted on Amazon S3.
 
 Build your site
 ---------------
-1. [Download](https://github.com/ebello/Jekyll-S3/zipball/master) Jekyll-S3
-2. [Install framework dependencies](https://github.com/ebello/Jekyll-S3/wiki/Installation) if you haven't before
-3. [Configure options](https://github.com/ebello/Jekyll-S3/wiki/Configuration)
+1. [Download](https://github.com/ebello/jekyll-perf/zipball/master) jekyll-perf
+2. [Install framework dependencies](https://github.com/ebello/jekyll-perf/wiki/Installation) if you haven't before
+3. [Configure options](https://github.com/ebello/jekyll-perf/wiki/Configuration)
 4. Command line usage:
 
 Development mode, continually regenerates site files
