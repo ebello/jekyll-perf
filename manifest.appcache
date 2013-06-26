@@ -5,7 +5,7 @@ CACHE MANIFEST
 # rev {{ site.buildtime }}
 
 CACHE:
-/styles/main.css
+{% asset_path all.css %}
 {% for page in site.pages %}{% if page.url != '/manifest.appcache' %}{{ page.url }}{% endif %}
 {% endfor %}
 {% for item in site.images %}{{ item.url }}

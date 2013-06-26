@@ -1,5 +1,6 @@
 source :rubygems
 gem "jekyll"
+gem "jekyll-assets"
 gem "compass"
 gem "thin"
 gem "thor"

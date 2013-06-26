@@ -12,4 +12,5 @@ body {
   font-family: Arial;
   @include regular-text;
   margin: 0 auto;
+  // background-image: url(asset_path('s.gif'));
 }

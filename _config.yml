@@ -1,3 +1,7 @@
 exclude: [ styles, README.md, LICENSE ]
 domain: 
 permalink: pretty
+assets:
+  compress:
+    js:   uglifier
+    css:  sass
