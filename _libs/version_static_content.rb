@@ -9,13 +9,13 @@ end
   
 def far_future_expires_type(ext)
   [
-    '.css',
-    '.js',
-    '.ico',
-    '.jpg',
-    '.png',
-    '.gif',
-    '.svg',
+    # '.css',
+    # '.js',
+    # '.ico',
+    # '.jpg',
+    # '.png',
+    # '.gif',
+    # '.svg',
   ].include?(ext)
 end
 
@@ -25,11 +25,11 @@ end
 
 def search_type(ext)
   [
-    '.css',
+    # '.css',
     '.js',
     '.json',
-    '.html',
-    '.appcache',
+    # '.html',
+    # '.appcache',
   ].include?(ext)
 end
 
