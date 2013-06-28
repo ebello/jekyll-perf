@@ -117,12 +117,6 @@ class Build < Thor
     system "jekyll build --destination #{BUILD_DIR}"
   end
   
-  desc "javascript_compile", "uses Uglifier to optimize javascript", :hide => true
-  def javascript_compile
-    puts "optimizing JavaScript with Uglifier"
-    system "ruby #{LIBS_DIR}javascript_compile.rb #{BUILD_DIR}"
-  end
-  
   desc "version_static_content", "version and replace static content", :hide => true
   def version_static_content(cdn = "")
     puts "versioning static content"
@@ -166,7 +160,6 @@ class Build < Thor
   def testing
     invoke :clean
     invoke :jekyll
-    invoke :javascript_compile
     invoke :version_static_content
     invoke :add_base_path
     invoke :html_compress
@@ -186,7 +179,6 @@ class Build < Thor
   def production(cdn)
     invoke :clean, []
     invoke :jekyll, []
-    invoke :javascript_compile, []
     invoke :version_static_content, [cdn]
     invoke :add_base_path, []
     invoke :html_compress, []
