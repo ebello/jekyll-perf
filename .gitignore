@@ -1,5 +1,4 @@
 _site/
-css/
-_Procfile
 .sass-cache/
 .DS_Store
+.jekyll-assets-cache/

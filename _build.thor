@@ -53,24 +53,16 @@ end
 class Dev < Thor
   default_task :dev
   
-  desc "dev", "starts local server and continuously regenerates html and css"
+  desc "dev", "starts local server and continuously regenerates html and css; wrapper for jekyll --watch"
   method_option :port, :aliases => "-p", :default => 3000
   def dev
-    procfile = "_Procfile"
-    File.open(procfile, "w") {|file|
-      file.puts "compass: compass watch --sass-dir #{Build.sass_dir} --css-dir #{Build.css_dir} -e development -s expanded --debug-info"
-      file.puts "jekyll: jekyll build --destination #{Build.build_dir} --watch"
-      file.puts "server: thin start -R #{Build.build_dir_folder_level}#{Build.libs_dir}thin.ru -c #{Build.build_dir} -p #{options[:port]}"
-    }
-    system "foreman start -f #{procfile}"
+    system "jekyll serve --destination #{Build.build_dir} --port #{options[:port]} --watch"
   end
 end
 
 class Build < Thor  
   BUILD_DIR = "_site/"
   LIBS_DIR = "_libs/"
-  SASS_DIR = "styles"
-  CSS_DIR = "css"
   # anything in the external directory will not be uploaded when publishing. Before upload, it will be moved from the build_dir to a level up and prepended with _
   EXTERNAL_DIR = "external/"
   IMAGES2X_DIR = "/2x"
@@ -84,14 +76,6 @@ class Build < Thor
   
   def self.libs_dir
     LIBS_DIR
-  end
-  
-  def self.sass_dir
-    SASS_DIR
-  end
-  
-  def self.css_dir
-    CSS_DIR
   end
   
   def self.processed_external_dir
@@ -119,9 +103,8 @@ class Build < Thor
   desc "clean", "cleans build directory and external directory, if provided", :hide => true
   # method_option :external_dir
   def clean
-    puts "cleaning build dir #{BUILD_DIR} and css dir #{CSS_DIR}"
+    puts "cleaning build dir #{BUILD_DIR}"
     system "rm -rf #{BUILD_DIR}*"
-    system "rm -rf #{CSS_DIR}*"
     unless EXTERNAL_DIR.empty?
       puts "cleaning external dir _#{EXTERNAL_DIR}"
       system "rm -rf _#{EXTERNAL_DIR}"
@@ -132,13 +115,6 @@ class Build < Thor
   def jekyll
     puts "building static site with jekyll"
     system "jekyll build --destination #{BUILD_DIR}"
-  end
-  
-  desc "compass", "compile css with compass", :hide => true
-  # method_option :sass_dir, :default => "styles", :required => true
-  def compass(environment = "development", output_style = "expanded")
-    puts "compiling css with compass"
-    system "compass compile --sass-dir #{SASS_DIR} --css-dir #{CSS_DIR} -e #{environment} -s #{output_style} --force"
   end
   
   desc "javascript_compile", "uses Uglifier to optimize javascript", :hide => true
@@ -189,7 +165,6 @@ class Build < Thor
   desc "testing", "builds and prepares site for a testing environment"
   def testing
     invoke :clean
-    invoke :compass
     invoke :jekyll
     invoke :javascript_compile
     invoke :version_static_content
@@ -210,7 +185,6 @@ class Build < Thor
   desc "production", "builds and prepares site for a production environment"
   def production(cdn)
     invoke :clean, []
-    invoke :compass, ["production", "compressed"]
     invoke :jekyll, []
     invoke :javascript_compile, []
     invoke :version_static_content, [cdn]

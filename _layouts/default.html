@@ -17,7 +17,7 @@
   {% content_for styles %}
   <link rel="shortcut icon" href="/images/favicon.ico" />
   <!--[if IE 7]>{% stylesheet ie7 %}<![endif]-->
-  <!--[if lt IE 9]>{% stylesheet html5ie.min %}<![endif]-->
+  <!--[if lt IE 9]>{% stylesheet html5ie.min.js %}<![endif]-->
 </head>
 <body>
   <section>
@@ -77,11 +77,5 @@
       });
     }
   </script>
-  <!-- Prompt IE 6 users to install Chrome Frame. Remove this if you want to support IE 6.
-    chromium.org/developers/how-tos/chrome-frame-getting-started -->
-  <!--[if lt IE 7 ]>
-  <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
-  <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
-  <![endif]-->
 </body>
 </html>

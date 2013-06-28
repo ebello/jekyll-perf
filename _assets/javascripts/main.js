@@ -1,3 +1,7 @@
+/**
+ * @license Copyright 2013 Test License.
+ */
+
 (function($){
 
   var preload = [],
