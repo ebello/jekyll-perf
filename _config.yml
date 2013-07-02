@@ -1,6 +1,6 @@
 exclude: [ styles, README.md, LICENSE ]
-domain: 
-permalink: pretty
+domain: http://www.example.com
+# permalink: pretty
 assets:
   compress:
     js:   uglifier

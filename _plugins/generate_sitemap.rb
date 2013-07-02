@@ -84,18 +84,20 @@ module Jekyll
       # First, try to find any stand-alone pages.      
       site.pages.each{ |page|
         path     = page.subfolder + '/' + page.name
-        mod_date = File.mtime(site.source + path)
+        if File.exists?(site.source + path)
+          mod_date = File.mtime(site.source + path)
 
-  			# Remove the trailing 'index.html' if there is one, and just output the folder name.
-  			if path=~/index.html$/
-  			  path = path[0..-11]
-  		  end
-  		  
-  		  # replace any .json files with .html
-  		  path = path.gsub(/.json/,".html")
-        
-        unless path =~/error/ or path =~/external/
-          result += entry(path, mod_date, domain)
+    			# Remove the trailing 'index.html' if there is one, and just output the folder name.
+    			if path=~/index.html$/
+    			  path = path[0..-11]
+    		  end
+    		  
+    		  # replace any .json files with .html
+    		  path = path.gsub(/\.json/, ".html")
+          
+          unless path =~/error/ or path =~/external/
+            result += entry(path, mod_date, domain)
+          end
         end
       }
       

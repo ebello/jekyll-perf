@@ -1,3 +1,5 @@
+require "json"
+
 module Jekyll
   module Convertible
     
@@ -25,7 +27,7 @@ module Jekyll
         payload = payload.deep_merge({"content" => self.output, "page" => layout.data})
 
         # create a new hash for the layout content blocks, we don't want to change the original values
-        layout_content_blocks = Hash[*layout.content_blocks.collect{|key, val| [key, Liquid::Template.parse(val).render(payload, info)] }.flatten]
+        layout_content_blocks = Hash[*layout.content_blocks.collect{|key, val| [key, self.render_liquid(val, payload, info)] }.flatten]
         payload = payload.deep_merge({"content_blocks" => layout_content_blocks})
 
         self.output = self.render_liquid(layout.content,
@@ -50,8 +52,11 @@ module Jekyll
       payload["pygments_suffix"] = converter.pygments_suffix
 
       # parse liquid inside all content blocks
-      self.content_blocks.update(self.content_blocks){ |key, val| Liquid::Template.parse(val).render(payload, info) }
+      self.content_blocks.update(self.content_blocks){ |key, val| self.render_liquid(val, payload, info) }
       payload["content_blocks"] = self.content_blocks
+
+      self.json = JSON.parse(self.render_liquid(self.json, payload, info)) if self.json
+      payload["page"]["json"] = self.json
 
       self.content = self.render_liquid(self.content,
                                         payload.merge({:file => self.name}),

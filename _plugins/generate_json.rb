@@ -1,9 +1,17 @@
-require 'json'
 module Jekyll
   
-  # do nothing on write so as to not conflict with regular staticfile
-  class JsonFile < StaticFile
-    def write(dest)
+  class JsonFile < Page
+    def initialize(site, base, dir, name, content)
+      self.data = {}
+      self.content_blocks = {}
+      self.content = content
+
+      # convert to .raw-json so we can output the file as .json instead of .html using a converter
+      super(site, base, dir, name.gsub(/\.json/, ".raw-json"))
+    end
+
+    def read_yaml(*)
+      # Do nothing because we don't want a layout
     end
   end
   
@@ -16,20 +24,10 @@ module Jekyll
       site.allpages.select{|p| p.ext == ".json"}.each do |p|
 
         unless p.to_liquid["makehtml"] == false
-          # load json into property so we can access with liquid later
-          p.json = JSON.parse(p.content)
+          # set json property to content. it will be converted to actual JSON in do_layout.
+          p.json = p.content
           
-          # write out json file
-          dir = File.join(site.dest, p.to_liquid["subfolder"])
-          FileUtils.mkdir_p(dir)
-          
-          File.open(File.join(dir, p.name), 'w') do |f|
-            f.write(p.content)
-            f.close
-          end
-          
-          # add to static files so it doesn't delete file in cleanup
-          site.static_files << JsonFile.new(site, site.dest, p.to_liquid["subfolder"], p.name)
+          site.pages << JsonFile.new(site, site.source, p.to_liquid["subfolder"], p.name, p.content)
         end
       end
       
