@@ -1,0 +1,7 @@
+exclude: [ README.md, LICENSE ]
+domain:
+assets:
+  baseurl: /assets/
+  compress:
+    js:
+    css:
