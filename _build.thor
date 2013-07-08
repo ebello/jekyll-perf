@@ -2,7 +2,9 @@ require 'yaml'
 class Deploy < Thor
   SITE_DOMAIN = nil # include full domain (http://domain.net) without trailing slash
   CDN_URL = "" # include full domain (http://domain.net) without trailing slash
+  CDN_URL_STAGING = "" # include full domain (http://domain.net) without trailing slash
   BUCKET = ""
+  BUCKET_STAGING = ""
   SERVER_PROD = ""
   SERVER_STAGING = ""
   WEB_DIR = ""
