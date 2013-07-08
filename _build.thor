@@ -90,15 +90,7 @@ class Dev < BuildHelp
 end
 
 class Build < BuildHelp  
-  # BUILD_DIR = "_site/"
-  # LIBS_DIR = "_libs/"
-  # # anything in the external directory will not be uploaded when publishing. Before upload, it will be moved from the build_dir to a level up and prepended with _
-  # EXTERNAL_DIR = "external/"
-  # IMAGES2X_DIR = "/2x"
-  # class_option :compressor, :default => "~/Library/Google/compiler-latest/htmlcompressor-1.5.2.jar"
-  # class_option :port, :aliases => "-p", :default => 3000
-  
-  default_task :server
+  default_task :testing
   
   def self.build_dir
     BUILD_DIR
@@ -110,14 +102,6 @@ class Build < BuildHelp
   
   def self.processed_external_dir
     "_#{EXTERNAL_DIR}"
-  end
-
-  def self.build_dir_folder_level_count
-    return BUILD_DIR.count "/"
-  end
-
-  def self.build_dir_folder_level(folder_level_count = Build.build_dir_folder_level_count)
-    return "../" * folder_level_count
   end
   
   desc "optimize_images", "optimize all PNGs"
@@ -174,20 +158,11 @@ class Build < BuildHelp
     system "ruby #{LIBS_DIR}gzip_content.rb #{BUILD_DIR}"
   end
   
-  desc "testing", "builds and prepares site for a testing environment"
+  desc "server", "builds, prepares site for testing environment, and hosts site locally"
   def testing
     invoke :clean
     BuildConfig.configure(:build)
     invoke :jekyll, [:serve]
-    # invoke :add_base_path
-    # invoke :html_compress
-  end
-  
-  desc "server", "builds, prepares, and hosts site locally using thin"
-  method_option :port, :aliases => "-p", :default => 3000
-  def server
-    invoke :testing
-    # system "thin start -c #{BUILD_DIR.split('/')[0]}/ -R ../#{LIBS_DIR}thin.ru -p #{options[:port]}"
   end
   
   # thor 0.14.6 has a bug that forces args to be defined for invoked tasks if the main task accepts an argument that isn't optional.
@@ -206,7 +181,7 @@ end
 class BuildConfig
   DEFAULT_CONFIG = ".config.yml"
 
-  def self.configure(environment = :dev, cdn)
+  def self.configure(environment, cdn = nil)
     self.read_defaults
 
     @settings["domain"] = Deploy.site_domain
