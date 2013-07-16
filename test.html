@@ -5,6 +5,9 @@ title: Sample page
 primarynavorder: 1
 htmlclass: test
 ---
+{% contentfor styles %}
+{% stylesheet all %}
+{% endcontentfor %}
 <article>
   <p>This is a sample page showing how to <a href="{% url sample %}">use page id's for linking</a>. Make sure the page has an id specified and use that as the argument to the url tag. Now the link will work even if the page is moved.</p>
   
@@ -23,3 +26,7 @@ htmlclass: test
   3. test with CDN
   # 4. test Annual Report 2011 or Brandlogic IBM site for add_base_path
 </article>
+
+{% contentfor aside %}
+this is aside content
+{% endcontentfor %}

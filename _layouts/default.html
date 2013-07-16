@@ -14,7 +14,7 @@
   <meta name="description" content="{{ page.description }}" />
   {% endif %}
   {% stylesheet all %}
-  {% content_for styles %}
+  {% contentblock styles %}
   <link rel="shortcut icon" href="{% asset_path favicon.ico %}" />
   <!--[if IE 7]>{% stylesheet ie7 %}<![endif]-->
   <!--[if lt IE 9]>{% stylesheet html5ie.min.js %}<![endif]-->
@@ -50,7 +50,7 @@
       
   {% javascript modernizr.min.js %}
 
-  {% content_for scripts %}
+  {% contentblock scripts %}
 
   <script type="text/javascript">
     window._gaq = [['_setAccount','[ANALYTICS CODE]'],['_trackPageview'],['_trackPageLoadTime']];

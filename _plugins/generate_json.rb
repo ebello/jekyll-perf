@@ -3,7 +3,6 @@ module Jekyll
   class JsonFile < Page
     def initialize(site, base, dir, name, content)
       self.data = {}
-      self.content_blocks = {}
       self.content = content
 
       # convert to .raw-json so we can output the file as .json instead of .html using a converter

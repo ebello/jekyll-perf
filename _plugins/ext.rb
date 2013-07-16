@@ -1,5 +1,6 @@
 require "jekyll-assets"
 require "jekyll-assets/compass"
+require "jekyll-contentblocks"
 
 # following is a workaround for keeping copyrights intact
 # https://github.com/ixti/jekyll-assets/issues/34

@@ -1,6 +1,6 @@
 module Jekyll
   module JekyllS3PageExtensions
-    attr_accessor :content_blocks, :json
+    attr_accessor :json
 
     def subfolder
       @dir.to_s
