@@ -9,8 +9,10 @@ module Jekyll
       # send JSON through Liquid
       info = { :filters => [Jekyll::Filters], :registers => { :site => self.site, :page => payload['page'] } }
 
-      self.json = JSON.parse(self.render_liquid(self.json, payload, info)) if self.json
-      payload["page"]["json"] = self.json
+      if self.respond_to?('json')
+        self.json = JSON.parse(self.render_liquid(self.json, payload, info)) if self.json
+        payload["page"]["json"] = self.json
+      end
 
       orig_do_layout(payload, layouts)
     end
