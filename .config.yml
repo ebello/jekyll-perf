@@ -2,6 +2,7 @@ exclude: [ README.md, LICENSE ]
 domain: 
 assets: 
   baseurl: /assets/
+  gzip: false
   compress:
     js: 
     css: 
