@@ -12,6 +12,12 @@ files = %x[ find . -type f | grep -v '#{site}' ].split("\n").map do |f|
 end
 
 pngs = files.select{|f| is_png(f)}
-# jpgs = files.select{|f| is_jpg(f)}
+jpgs = files.select{|f| is_jpg(f)}
 
 system "optipng #{pngs.join(' ')}"
+
+jpgs.each do |jpg|
+  # using -strip will potentially change colors, so don't use
+  # -interlace Plane makes it a progressive image
+  system "mogrify -interlace Plane -quality 85% #{jpg}"
+end
