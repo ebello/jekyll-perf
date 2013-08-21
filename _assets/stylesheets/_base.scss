@@ -86,3 +86,41 @@ $text-color: #333;
     }
   }
 }
+
+// sample usage of vertical-sprite
+@mixin icon($background-position) {
+  @include vertical-sprite(20px, $background-position, $horizontal-px-increment: 20px, $hover: true, $active: true);
+}
+
+// $background-pos-order is 0 based
+@mixin vertical-sprite($vertical-px-increment, $background-pos-order, $offsetx: 0, $offsety: 0, $horizontal-px-increment: null, $hover: null, $active: null) {
+  $background-pos-y: $vertical-px-increment * $background-pos-order * -1;
+  background-position: 0 + $offsetx $background-pos-y + $offsety;
+  &:after {
+    background-position: 0 + $offsetx $background-pos-y + $offsety;
+  }
+  @if $horizontal-px-increment != null {
+    $background-pos-x: $horizontal-px-increment * $background-pos-order * -1;
+    @if $hover != null {
+      $hover-pos: $horizontal-px-increment * -1;
+      &:hover {
+        background-position: $hover-pos + $offsetx $background-pos-y + $offsety;
+        &:after {
+          background-position: $hover-pos + $offsetx $background-pos-y + $offsety;
+        }
+      }
+      &.hover {
+        background-position: $hover-pos + $offsetx $background-pos-y + $offsety;
+      }
+      @if $active != null {
+        $active-pos: $horizontal-px-increment * 2 * -1;
+        &:active {
+          background-position: $active-pos + $offsetx $background-pos-y + $offsety;
+          &:after {
+            background-position: $active-pos + $offsetx $background-pos-y + $offsety;
+          }
+        }  
+      } 
+    }
+  }
+}
