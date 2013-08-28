@@ -115,6 +115,27 @@ class Build < BuildHelp
   def resize_2x_images
     system "ruby #{LIBS_DIR}resize_2x_images.rb #{BUILD_DIR} #{IMAGES2X_DIR}"
   end
+
+  desc "sprites", "generate sprites"
+    def sprites
+      # arrays of folder paths containing images to sprite
+      # each folder will generate a PNG that matches the name of the folder (ex. images/sprites/labels will generate a images/sprites/labels.png)
+      # each folder set contains of original sprite and optional hover and/or active sprites
+      folder_sets = [
+        # ['images/sprites/labels', 'images/sprites/labels-hover'],
+        # ['images/sprites/icons', 'images/sprites/icons-hover'],
+        # ['images/sprites/prompts']
+      ]
+
+      system "ruby #{LIBS_DIR}sprite_factory_vertical_fixed_grid.rb #{folder_sets.flatten.join(',')}"
+
+      # for each folder set, grab only the ones that have hover and/or active images specified, then combine them into one sprite image
+      folder_sets.select{|f| f.length > 1}.each do |folder_arr|
+        sprite_images = folder_arr.map {|f| f + ".png"}
+        system "ruby #{LIBS_DIR}sprite_combine_hover_active.rb #{sprite_images.join(' ')}"
+      end
+      
+    end
   
   desc "clean", "cleans build directory and external directory, if provided", :hide => true
   # method_option :external_dir
