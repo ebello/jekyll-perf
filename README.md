@@ -62,13 +62,19 @@ If you want to support high resolution displays, place images at twice the size 
 Reduce the size of your images safely by running `thor build:optimize_images`.
 
 ### Automatic sprite generation
+Create sprites that are perfect to use with Sass functions: vertically oriented with a fixed grid. All images are left and top aligned in the grid. See the `_build.thor` file for how to configure.
 
+### Jekyll pages built with JSON
+Having the data for a page in JSON format means you can build static HTML and have dynamic functionality using JavaScript, all while having one central place for the data.
 
-Jekyll pages built with JSON 
-Liquid tag to extract information from JSON
-dynamic navigation based on hierarchy, ordered numerically or by date
-url tag to get page url by id
-Amazon S3 deployment
+### Liquid tag to extract information from JSON files
+Reference data in other JSON pages by using the `json` Liquid tag. See the documentation in _plugins/json_tag.rb for usage.
+
+### Dynamic site navigation
+Primary and secondary navigation can be generated automatically based on YAML metadata on the page. Use `primarynavorder` or `navorder` to specify placement of page within the navigation. See the default layout for an example of how to generate the navigation.
+
+### Amazon S3 deployment
+If you're hosting your site on Amazon S3, all the appropriate headers for caching and gzip support in order to get the best performance are taken care of.
 
 Dependencies
 ------------
