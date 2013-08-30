@@ -106,7 +106,7 @@ class Build < BuildHelp
     "_#{EXTERNAL_DIR}"
   end
   
-  desc "optimize_images", "optimize all PNGs"
+  desc "optimize_images", "optimize all PNGs and JPEGs"
   def optimize_images
     system "ruby #{LIBS_DIR}optimize_images.rb #{BUILD_DIR}"
   end
