@@ -10,7 +10,7 @@ module Jekyll
       if site.domain
         site.domain + url
       else
-        puts '*** WARNING: domain in _config.yml is blank. This is used to generate an absolute url for a page.'
+        puts '*** WARNING: SITE_DOMAIN in _build.thor is blank. This is used to generate an absolute url for a page.'
         url
       end
     end

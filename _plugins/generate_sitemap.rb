@@ -78,7 +78,7 @@ module Jekyll
     #  +site+ is the global Site object.
     def generate_content(site)
       domain = site.config["domain"]
-      puts '*** WARNING: domain in _config.yml is blank. This is used to generate a sitemap XML.' unless domain
+      puts '*** WARNING: SITE_DOMAIN in _build.thor is blank. This is used to generate a sitemap XML.' unless domain
       result   = ''
       
       # First, try to find any stand-alone pages.      
