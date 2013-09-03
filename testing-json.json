@@ -6,5 +6,5 @@ primarynavorder: 5
 ---
 {
   "title": "Contact us",
-  "image": "{% asset_path homepage_matrixfeature_thumb.jpg %}"
+  "image": "{% asset_path s.gif %}"
 }

@@ -13,8 +13,6 @@ htmlclass: test
   
   <p>This is an encoded absolute url of this page: {{ page.absolute_url | urlencode }}</p>
 
-  <img src="{% asset_path logo.svg %}" />
-
   <!-- sample deferred image -->
   <img src="{% asset_path s.gif %}" data-low="/images/home.jpg" data-high="/images/2x/home.jpg" width="931" height="617" alt="sample"/>
   <noscript>
