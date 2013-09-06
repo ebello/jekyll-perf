@@ -34,7 +34,7 @@ module Jekyll
     end
 
     alias orig_to_liquid to_liquid
-    def to_liquid
+    def to_liquid(attrs = nil)
       # we want index pages to be included with the navigation one level above, but only if it's not on the first level
       orig_to_liquid.deep_merge({
         "subfolder" => (index? && hierarchy_array.size > 2) ? hierarchy_at(1) : subfolder,
@@ -49,7 +49,7 @@ module Jekyll
   class Post
     include JekyllS3PageExtensions
     alias orig_to_liquid to_liquid
-    def to_liquid
+    def to_liquid(attrs = nil)
       orig_to_liquid.deep_merge({
         "absolute_url" => absolute_url,
         "json" => json
