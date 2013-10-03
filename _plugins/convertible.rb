@@ -10,7 +10,7 @@ module Jekyll
       info = { :filters => [Jekyll::Filters], :registers => { :site => self.site, :page => payload['page'] } }
 
       if self.respond_to?('json')
-        self.json = JSON.parse(self.render_liquid(self.json, payload, info)) if self.json
+        self.json = JSON.parse(self.render_liquid(self.json.to_json, payload, info)) if self.json
         payload["page"]["json"] = self.json
       end
 

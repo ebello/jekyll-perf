@@ -1,3 +1,6 @@
+require "open-uri"
+require "json"
+
 module Jekyll
   
   class JsonFile < Page
@@ -27,12 +30,11 @@ module Jekyll
 
           # if an external source exists for the JSON file, pull it down and use that instead
           if p.to_liquid["source"]
-            require 'open-uri'
             content = open(p.to_liquid["source"]) {|io| io.read}
           end
 
-          # set json property to content. it will be converted to actual JSON in do_layout.
-          p.json = content
+          # set json property to content
+          p.json = JSON.parse(content)
           
           site.pages << JsonFile.new(site, site.source, p.to_liquid["subfolder"], p.name, content)
         end
