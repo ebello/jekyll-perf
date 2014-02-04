@@ -44,7 +44,7 @@ $text-color: #333;
   left: $left;
 }
 
-@mixin horizontal-linked-list($item-margin-left: null, $item-margin-right: null) {
+@mixin horizontal-linked-list($item-margin-left: null, $item-margin-right: null, $item-padding-left: null, $item-padding-right: null) {
   @include pie-clearfix;
   li {
     display: inline;
@@ -54,6 +54,8 @@ $text-color: #333;
     float: left;
     margin-left: $item-margin-left;
     margin-right: $item-margin-right;
+    padding-left: $item-padding-left;
+    padding-right: $item-padding-right;
   }
 }
 
