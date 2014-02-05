@@ -13,12 +13,12 @@ $text-color: #333;
   @include text-spec(12px, 17px, $text-color);
 }
 
-@mixin inline-border-list {
+@mixin inline-border-list($content: "|") {
   display: inline;
   margin-right: 6px;
   padding-top: 1px;
   &:before {
-    content: "|";
+    content: $content;
     margin-right: 8px;
   }
   &:first-child:before {
