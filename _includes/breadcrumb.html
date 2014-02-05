@@ -1,0 +1,25 @@
+<ul>
+{% capture current_page_baseurl %}{{ page.url | remove:'index.html' }}{% endcapture %}
+{% for folder in page["hierarchy_array"] %}
+  {% capture path %}{{ path | append:folder | append:'/' }}{% endcapture %}
+  
+  {% for p in site.pages %}
+    {% capture baseurl %}{{ p.url | remove:'index.html' }}{% endcapture %}
+    {% if baseurl == path and baseurl != current_page_baseurl %}
+      {% if p.nav %}
+        {% assign title = p.nav %}
+      {% else %}
+        {% assign title = p.title %}
+      {% endif %}
+      <li><a href="{{ p.url }}">{{ title }}</a></li>
+    {% endif %}
+  {% endfor %}
+{% endfor %}
+
+{% if page.nav %}
+  {% assign title = page.nav %}
+{% else %}
+  {% assign title = page.title %}
+{% endif %}
+<li>{{ title }}</li>
+</ul>
