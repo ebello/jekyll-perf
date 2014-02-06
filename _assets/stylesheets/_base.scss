@@ -90,8 +90,13 @@ $text-color: #333;
 }
 
 // sample usage of vertical-sprite
+$icon-vert-px-increment: 20px;
+$icon-hori-px-increment: 20px;
 @mixin icon($background-position) {
-  @include vertical-sprite(20px, $background-position, $horizontal-px-increment: 20px, $hover: true, $active: true);
+  @include vertical-sprite($icon-vert-px-increment, $background-position, $horizontal-px-increment: $icon-hori-px-increment, $hover: true);
+}
+@function icon-pos-y($n) {
+  @return $n * $icon-vert-px-increment * -1;
 }
 
 // $background-pos-order is 0 based
