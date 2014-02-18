@@ -1,3 +1,4 @@
+require "susy"
 require "jekyll-assets"
 require "jekyll-assets/compass"
 require "jekyll-contentblocks"

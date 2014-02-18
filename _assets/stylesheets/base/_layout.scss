@@ -1,0 +1,17 @@
+// Susy settings
+$total-columns        : 4;
+$desktop-columns      : 12;
+$column-width         : 54px;
+$gutter-width         : 30px;
+$grid-padding         : 10px;
+$grid-padding-desktop : 20px;
+$tablet-portrait      : 768px;
+$desktop-break        : $tablet-portrait $desktop-columns;
+$max-desktop-width    : 978px;
+$container-style      : magic;
+$container-width      : $max-desktop-width + ($grid-padding-desktop * 2);
+
+@mixin full-width {
+  margin: 0 0 - $grid-padding;
+  padding: 0 $grid-padding;
+}

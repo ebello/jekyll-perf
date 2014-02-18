@@ -1,0 +1,45 @@
+@mixin absolute($top: 0, $left: 0) {
+  position: absolute;
+  top: $top;
+  left: $left;
+}
+
+// sets up a link with a background image and moves the text out of view
+@mixin background-image-link($background, $width, $height) {
+  display: block;
+  text-indent: -9999%;
+  @if $background != null { background-image: url($background); }
+  background-repeat: no-repeat;
+  width: $width;
+  height: $height;
+}
+
+// creates a triangle to place before an element. 
+// specify direction that the triangle points (up, right, down, left) or give a custom rotation.
+// specify x and y coordinates of where you want to place the triangle relative to the element.
+@mixin triangle($color, $size, $direction, $x, $y) {
+  position: relative;
+  &:before {
+    content: "";
+    display: block;
+    border-color: $color transparent transparent transparent;
+    border-style: solid;
+    border-width: $size;
+    width: 0;
+    height: 0;
+    @include absolute($y, $x);
+    @if $direction == left {
+      @include transform(rotate(90deg));
+    } @else if $direction == up {
+      @include transform(rotate(180deg));
+    } @else if $direction == right {
+      @include transform(rotate(270deg));
+    } @else if $direction != down {
+      @include transform(rotate($direction));
+    }
+
+    html.no-csstransforms & {
+      display: none;
+    }
+  }
+}

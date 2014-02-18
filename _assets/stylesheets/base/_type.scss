@@ -1,0 +1,13 @@
+$font-size: 14px;
+$line-space: 18px;
+
+@mixin text-spec($size: null, $line-height: null, $color: null, $weight: null) {
+  font-size: $size;
+  line-height: $line-height;
+  color: $color;
+  font-weight: $weight;
+}
+
+@mixin regular-text {
+  @include text-spec($font-size, $line-space, $text-color);
+}

@@ -1,16 +1,22 @@
-@import "base";
-@import "normalize";
-@import "global";
+@import "compass";
+@import "susy";
 
-html {
-  &.redirect {
-    display: none;
-  }
-}
+@import "base/_colors.scss";
+@import "base/_type.scss";
+@import "base/_navigation.scss";
+@import "base/_sprites.scss";
+@import "base/_layout.scss";
+@import "base/_misc.scss";
 
-body {
-  font-family: Arial;
-  @include regular-text;
-  margin: 0 auto;
-  // background-image: url(asset_path('s.gif'));
-}
+@import "general/_normalize.scss";
+@import "general/_elements.scss";
+@import "general/_layout.scss";
+
+// @import "ui-patterns/_link-arrow.scss";
+// @import "ui-patterns/_collapsible-container.scss";
+// @import "ui-patterns/_feature-rotator.scss";
+// @import "ui-patterns/_modal.scss";
+// @import "ui-patterns/_tabs.scss";
+
+// @import "modules/_primary-nav.scss";
+// @import "modules/_breadcrumb.scss";

@@ -1,0 +1,108 @@
+$link-padding: 12px;
+
+.primary {
+  background-color: #fff;
+
+  > ul {
+    display: none;
+    margin: 0;
+    list-style-type: none;
+    position: absolute;
+    z-index: 10;
+    background-color: #fff;
+    @include box-shadow(0 0 5px rgba(0,0,0,0.25));
+
+    li {
+      border-top: solid 1px nth($cyan, 2);
+      &:first-child {
+        border: 0;
+      }
+      &:hover {
+        border-color: nth($cyan, 1);
+      }
+    }
+
+    ul {
+      display: none;
+      position: absolute;
+      z-index: 1;
+      margin: 0;
+      width: 100%;
+      background-color: #fff;
+      li {
+        float: none;
+        width: 100%;
+      }
+    }
+
+    > li {
+      &:hover, 
+      &.selected {
+        > a {
+          background-color: $dark-blue;
+          color: #fff;
+        }
+      }
+    }
+  }
+
+  a {
+    display: block;
+    color: nth($gray, 1);
+    padding: 10px $link-padding;
+    text-decoration: none;
+    &:hover {
+      background-color: nth($cyan, 1);
+      color: #fff;
+    }
+    &:active {
+      color: nth($dark-blue, 1);
+    }
+  }
+
+  #menu:hover {
+    background-color: nth($dark-blue, 1);
+  }
+
+  @include at-breakpoint($desktop-break) {
+
+    > ul {
+      display: block;
+      position: static;
+      @include horizontal-linked-list($item-padding-left: 1.2vw, $item-padding-right: 1.2vw);
+      border-top: 0;
+      @include box-shadow(none);
+
+      > li {
+        border: 0;
+        > a {
+          // @include text-spec(11px, 28px, $dark-blue);
+          padding-top: 5px;
+          padding-bottom: 0;
+          @include text-spec(1.6vw, 28px, $dark-blue);
+          @include at-breakpoint($max-desktop-width $desktop-columns) {
+            font-size: 16px;
+            padding-left: $link-padding;
+            padding-right: $link-padding;
+          }
+          text-decoration: none;
+        }
+        &:hover {
+          ul {
+            display: block;
+          }
+        }
+      }
+      
+      
+    }
+    li {
+      position: relative;
+    }
+    li:last-child {
+      a {
+        margin-right: 0;
+      }
+    }
+  }
+}

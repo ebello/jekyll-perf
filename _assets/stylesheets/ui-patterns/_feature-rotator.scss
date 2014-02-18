@@ -1,0 +1,78 @@
+.rotator {
+  position: relative;
+  @include full-width;
+  @include at-breakpoint($desktop-break) {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  margin-bottom: 45px;
+  padding: 0;
+  figcaption {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    p {
+      margin: 3vw;
+      @include text-spec(3.4vw, 3.8vw, #fff, $whitney-book);
+      width: 40vw;
+
+      span {
+        display: block;
+      }
+      
+      .button {
+        margin-top: 3vw;
+      }
+
+      @include at-breakpoint($max-desktop-width $desktop-columns) {
+        font-size: 34px;
+        line-height: 38px;
+        width: 400px;
+        margin: $gutter-width;
+
+        .button {
+          margin-top: $line-space * 2;
+        }
+      }
+    }
+
+    h2 {
+      position: absolute;
+      right: 3vw;
+      bottom: 3vw;
+      margin: 0;
+      @include background-image(linear-gradient(left, #fff 30%, rgba(255,255,255,0)));
+      background-image: -ms-linear-gradient(left, #fff 30%, rgba(255,255,255,0));
+      html.no-cssgradients & {
+        background-color: #fff;
+      }
+      font-size: 2.5vw;
+      line-height: 2.8vw;
+      padding: 1.5vw 2vw 0;
+      width: 30vw;
+      @include at-breakpoint($desktop-break) {
+        font-size: 2.2vw;
+        line-height: 2.6vw;
+      }
+      @include at-breakpoint($max-desktop-width $desktop-columns) {
+        font-size: 22px;
+        line-height: 26px;
+        padding: 15px 20px;
+        width: 300px;
+        right: $gutter-width;
+        bottom: $gutter-width;
+      }
+
+      .button {
+        float: right;
+        margin-top: 10px;
+        margin-left: 10px;
+        position: relative;
+        bottom: 10px;
+      }
+    }
+  }
+}

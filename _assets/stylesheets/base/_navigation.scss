@@ -1,0 +1,30 @@
+@mixin inline-border-list($content: "|") {
+  display: inline;
+  margin-right: 6px;
+  padding-top: 1px;
+  &:before {
+    content: $content;
+    margin-right: 8px;
+  }
+  &:first-child:before {
+    display: none;
+  }
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+@mixin horizontal-linked-list($item-margin-left: null, $item-margin-right: null, $item-padding-left: null, $item-padding-right: null) {
+  @include pie-clearfix;
+  li {
+    display: inline-block;
+    float: left;
+  }
+  a {
+    display: block;
+    margin-left: $item-margin-left;
+    margin-right: $item-margin-right;
+    padding-left: $item-padding-left;
+    padding-right: $item-padding-right;
+  }
+}

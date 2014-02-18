@@ -1,0 +1,89 @@
+// element defaults only
+
+@mixin default-link($extend: true) {
+  @if $extend {
+    @extend %default-link;
+  }
+  @else {
+    color: nth($cyan, 1);
+    &:hover {
+      color: nth($gray, 2);
+    }
+    &:active {
+      color: nth($dark-blue, 1);
+    }
+  }
+}
+
+%default-link {
+  @include default-link(false);
+}
+
+* {
+  @include box-sizing(border-box);
+}
+
+html {
+  &.redirect {
+    display: none;
+  }
+}
+
+body {
+  font-family: Arial;
+  @include regular-text;
+}
+
+html.no-js img[data-low] {
+  display: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+// ::-webkit-input-placeholder {
+//    color: nth($gray, 1);
+// }
+// ::-moz-placeholder {
+//    color: nth($gray, 1);  
+// }
+// :-ms-input-placeholder {  
+//    color: nth($gray, 1);  
+// }
+// .placeholdersjs {
+//   color: nth($gray, 1);
+// }
+
+ul {
+  margin: 0 0 0 16px;
+  padding: 0;
+}
+
+p {
+  margin: 0 0 $line-space 0;
+}
+
+h1 {
+  margin: 0;
+}
+
+h2 {
+  margin: 0 0 $line-space 0;
+}
+
+h3 {
+  margin: 0;
+  @include regular-text;
+}
+
+a {
+  @include default-link;
+}
+
+article {
+  a {
+    color: $text-color;
+  }
+}

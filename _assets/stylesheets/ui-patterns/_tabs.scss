@@ -1,0 +1,63 @@
+$tab-height: 40px;
+
+.tabs {
+  @include pie-clearfix;
+  list-style: none;
+  position: relative;
+  margin: 0;
+  padding-bottom: $tab-height;
+  li {
+    float: left;
+    display: block;
+  }
+  input[type="radio"] {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  // labels must be specifically placed on screen to avoid div's being placed absolute
+  label {
+    display: inline-block;
+    padding-left: $grid-padding;
+    cursor: pointer;
+    // position: relative;
+    position: absolute;
+    top: 0;
+    color: nth($nps-gray, 1);
+    line-height: $tab-height;
+    background-color: #fff;
+    @include box-shadow(0 -4px 8px rgba(0,0,0,0.1));
+    html.no-boxshadow & {
+      border: solid 1px #ccc;
+    }
+    // @include transition(all 0.2s ease-in-out);
+    &:hover {
+      color: nth($cyan, 1);
+    }
+  }
+  .tab-content {
+    background-color: #fff;
+    z-index: 2;
+    display: none; 
+    overflow: hidden;
+    width: 100%;
+    padding: $grid-padding;
+    position: absolute;
+    top: $tab-height - 1;
+    left: 0;
+    @include box-shadow(0 0 10px rgba(0,0,0,0.25));
+    html.no-boxshadow & {
+      border: solid 1px #ccc;
+    }
+  }
+  //The Magic
+  [id^="tab"]:checked + label { 
+    z-index: 10;
+    color: nth($cyan, 1);
+  }
+  [id^="tab"]:checked ~ [id^="tab-content"] {
+    display: block;
+    position: relative;
+  }
+}

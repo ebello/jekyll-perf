@@ -1,0 +1,9 @@
+.collapsed {
+  display: none;
+  padding: $line-space 10px;
+  margin-bottom: $line-space;
+  @include box-shadow(0 0 10px rgba(0,0,0,0.25));
+  html.no-js & {
+    display: block;
+  }
+}

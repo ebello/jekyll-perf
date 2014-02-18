@@ -1,0 +1,21 @@
+.arrow {
+  @include text-spec(14px, 17px);
+  position: relative;
+  text-decoration: none;
+  display: block;
+  padding: 9px 15px 9px 0;
+  @include icon(0);
+  &:after {
+    // background-image: url(asset_path("icons.png"));
+    // content: "";
+    // content: "\25B6";
+    // color: nth($nps-cyan, 1);
+    // font-size: 9px;
+    display: block;
+    width: 5px;
+    height: 9px;
+    position: absolute;
+    top: 13px;
+    right: 0;
+  }
+}

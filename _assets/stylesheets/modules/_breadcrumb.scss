@@ -1,0 +1,18 @@
+.breadcrumb {
+  position: relative;
+  clear: both;
+  padding-top: 5px;
+  ul {
+    margin: 0;
+    li {
+      @include inline-border-list(">");
+      margin-right: 3px;
+      &:before {
+        margin-right: 4px;
+      }
+    }
+  }
+  a {
+    text-decoration: none;
+  }
+}
