@@ -34,6 +34,17 @@ Show help for one task
 
     thor help [TASK]
 
+Installing gemsets 
+---------------
+1. Create file '.ruby-version' in root directory, paste in ruby version 
+(Currently ruby-2.0.0-p247)
+
+2. Create file '.ruby-gemset' in root directory. Enter name of desired gemset.
+
+3. 'cd' into the root directory to create gemset
+
+4. Run 'bundle install --gemfile=_Gemfile' to install the gems 
+
 
 Features
 --------
