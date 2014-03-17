@@ -41,7 +41,7 @@ Installing gemsets
 
 2. Create file '.ruby-gemset' in root directory. Enter name of desired gemset.
 
-3. 'cd' into desired directory to create gemset
+3. 'cd' into the root directory to create gemset
 
 4. Run 'bundle install --gemfile=_Gemfile' to install the gems 
 
