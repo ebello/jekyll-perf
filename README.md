@@ -34,8 +34,8 @@ Show help for one task
 
     thor help [TASK]
 
-Installing gemsets 
----------------
+Installing dependencies 
+-----------------------
 1. Create file '.ruby-version' in root directory, paste in ruby version 
 (Currently ruby-2.0.0-p247)
 
