@@ -14,6 +14,17 @@ function preloadImages() {
   getImages(preload);
 }
 
+// processes url query string from location.search object into dictionary 
+function processQuery(query){        
+  var dict = {};
+  var pairs = query.substring(1).split("&");
+  for(p in pairs){      
+    var pair = pairs[p].split("=");      
+    dict[pair[0]] = pair[1];
+  }
+  return dict;
+}
+
 // https://gist.github.com/html/1698093
 var loadImageCache = {};
 function eachStep(collection, callback, endcallback){
