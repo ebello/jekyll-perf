@@ -1,4 +1,4 @@
-exclude: [ README.md, LICENSE ]
+exclude: [ README.md, LICENSE, Vagrantfile ]
 domain: 
 assets: 
   baseurl: /assets/

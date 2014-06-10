@@ -64,7 +64,7 @@ class BuildHelp < Thor
   # anything in the external directory will not be uploaded when publishing. Before upload, it will be moved from the build_dir to a level up and prepended with _
   EXTERNAL_DIR = "external/"
   IMAGES2X_DIR = "/2x"
-  class_option :compressor, :default => "~/Library/Google/compiler-latest/htmlcompressor-1.5.2.jar"
+  class_option :compressor, :default => "~/Library/Google/compiler-latest/htmlcompressor-1.5.3.jar"
   class_option :port, :aliases => "-p", :default => 3000
 
   desc "jekyll", "builds static site", :hide => true
