@@ -87,6 +87,19 @@ Primary and secondary navigation can be generated automatically based on YAML me
 ### Amazon S3 deployment
 If you're hosting your site on Amazon S3, all the appropriate headers for caching and gzip support in order to get the best performance are taken care of.
 
+### Building With Vagrant
+1. install [vagrant](http://www.vagrantup.com/) (tested with 1.6.3)
+2. edit `Vagrantfile` and set the ports to unused ones on the host machine
+  * currently 3000 (jekyll-perf default) and 4000 (jekyll default) are mapped to 3001 and 4001 respectively
+  * `config.vm.network "forwarded_port", guest: 3000, host: 3001`
+  * `config.vm.network "forwarded_port", guest: 4000, host: 4001`
+3. start VM, (will download base virtual machine, if necessary): `vagrant up`
+4. connect to VM via SSH: `vagrant ssh`
+5. change to vagrant path which maps back to folder on host: `cd /vagrant`
+6. run normal jekyll-perf commands, like: `thor build`
+7. open up browser and point to http://localhost:3001/ (or the corresponding port you set above)
+
+
 Dependencies
 ------------
 * [Jekyll](https://github.com/mojombo/jekyll)
