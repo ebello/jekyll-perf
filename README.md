@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/ebello/jekyll-perf.png?label=ready&title=Ready)](https://waffle.io/ebello/jekyll-perf)
 jekyll-perf
 ===========
 
