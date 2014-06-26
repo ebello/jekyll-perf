@@ -5,30 +5,25 @@ class Deploy < Thor
   CDN_URL_STAGING = "" # include full domain (http://domain.net) without trailing slash
   BUCKET = ""
   BUCKET_STAGING = ""
-  SERVER_PROD = ""
+  SERVER_PROD = "" # host in your SSH config
   SERVER_STAGING = ""
   WEB_DIR = ""
-  class_option :ssh_user, :aliases => '-l'
-  
+
   default_task :production
-  
+
   desc "amazon BUCKET", "deploys site to specified amazon bucket"
   def amazon(bucket)
     puts "Publishing site to bucket #{bucket}"
     system "ruby #{Build.libs_dir}aws_s3_sync.rb #{Build.build_dir} #{bucket}"
   end
-  
+
   desc "server SERVER", "deploys site to specified server"
   def server(server)
     puts "Publishing site to server #{server}"
     # rsync -v = verbose, -z = compress, -r = recurse, -c = use checksums to check for new files, -t = preserve modification times, -O = omit directory times
-    if options.ssh_user?
-      system "rsync -vzrctO --delete -e ssh #{Build.build_dir} #{options[:ssh_user]}@#{server}:#{WEB_DIR}"
-    else
-      system "rsync -vzrctO --delete -e ssh #{Build.build_dir} #{server}:#{WEB_DIR}"
-    end
+    system "rsync -vzrctO --delete #{Build.build_dir} #{server}:#{WEB_DIR}"
   end
-  
+
   desc "site CDN BUCKET SERVER", "builds, prepares, and deploys site to specified bucket and server"
   def site(cdn = "", bucket = "", server = "")
     invoke "build:production", [cdn]
@@ -38,19 +33,19 @@ class Deploy < Thor
     end
     unless server.empty?
       invoke :server, [server]
-      
+
       # specify additional tasks here to upload items to server from external folder
     end
   end
-  
+
   desc "production", "builds, prepares, and deploys site to production environment"
   def production
     invoke :site, [CDN_URL, BUCKET, SERVER_PROD]
   end
-  
+
   desc "staging", "builds, prepares, and deploys site to staging environment"
   def staging
-    # invoke :site, [CDN_URL_STAGING, BUCKET_STAGING, SERVER_STAGING] 
+    # invoke :site, [CDN_URL_STAGING, BUCKET_STAGING, SERVER_STAGING]
   end
 
   def self.site_domain
@@ -83,7 +78,7 @@ end
 
 class Dev < BuildHelp
   default_task :dev
-  
+
   desc "dev", "starts local server and continuously regenerates html and css; wrapper for jekyll --watch"
   def dev
     BuildConfig.configure(:dev)
@@ -91,26 +86,26 @@ class Dev < BuildHelp
   end
 end
 
-class Build < BuildHelp  
+class Build < BuildHelp
   default_task :testing
-  
+
   def self.build_dir
     BUILD_DIR
   end
-  
+
   def self.libs_dir
     LIBS_DIR
   end
-  
+
   def self.processed_external_dir
     "_#{EXTERNAL_DIR}"
   end
-  
+
   desc "optimize_images", "optimize all PNGs and JPEGs"
   def optimize_images
     system "ruby #{LIBS_DIR}optimize_images.rb #{BUILD_DIR}"
   end
-  
+
   desc "resize_2x_images", "Any png, jpg, or gif under a /2x directory will be automatically resized to 50% and saved in the directory above. For example, /images/2x/logo.png will get resized and created in /images/logo.png."
   def resize_2x_images
     system "ruby #{LIBS_DIR}resize_2x_images.rb #{BUILD_DIR} #{IMAGES2X_DIR}"
@@ -134,9 +129,9 @@ class Build < BuildHelp
         sprite_images = folder_arr.map {|f| f + ".png"}
         system "ruby #{LIBS_DIR}sprite_combine_hover_active.rb #{sprite_images.join(' ')}"
       end
-      
+
     end
-  
+
   desc "clean", "cleans build directory and external directory, if provided", :hide => true
   # method_option :external_dir
   def clean
@@ -147,7 +142,7 @@ class Build < BuildHelp
       system "rm -rf _#{EXTERNAL_DIR}"
     end
   end
-  
+
   desc "add_base_path", "adds a base path to all files referenced by links or elsewhere", :hide => true
   def add_base_path
     path = BUILD_DIR
@@ -160,13 +155,13 @@ class Build < BuildHelp
       system "ruby #{LIBS_DIR}add_base_path.rb #{BUILD_DIR} #{path}"
     end
   end
-  
+
   desc "html_compress", "minifies all html", :hide => true
   def html_compress
     puts "minifying all html"
     system "ruby #{LIBS_DIR}html_compress.rb #{BUILD_DIR} #{options[:compressor]}"
   end
-  
+
   desc "move_external", "this will move the external folder, if specified, out of the build directory", :hide => true
   def move_external
     unless EXTERNAL_DIR.empty?
@@ -174,20 +169,20 @@ class Build < BuildHelp
       system "mv #{BUILD_DIR}#{EXTERNAL_DIR} _#{EXTERNAL_DIR}"
     end
   end
-  
+
   desc "gzip", "pre-compresses content", :hide => true
   def gzip
     puts "gzipping content"
     system "ruby #{LIBS_DIR}gzip_content.rb #{BUILD_DIR}"
   end
-  
+
   desc "server", "builds, prepares site for testing environment, and hosts site locally"
   def testing
     invoke :clean
     BuildConfig.configure(:build)
     invoke :jekyll, [:serve]
   end
-  
+
   # thor 0.14.6 has a bug that forces args to be defined for invoked tasks if the main task accepts an argument that isn't optional.
   # for example, if you remove the [] for `invoke :jekyll, []`, you'll receive an error that the jekyll task was called incorrectly.
   desc "production", "builds and prepares site for a production environment"
